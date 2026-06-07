@@ -1,4 +1,25 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aurora-app
+    ports:
+      - "8001:8000"
+      - "5175:5175"
+    volumes:
+      - .:/var/www
+      - aurora_vendor:/var/www/vendor
+      - aurora_node_modules:/var/www/node_modules
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      COMPOSER_PROCESS_TIMEOUT: 0
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: bash /var/www/docker/entrypoint.sh
+
   mysql:
     image: mysql:8.0
     container_name: aurora-mysql
@@ -19,3 +40,5 @@ services:
 
 volumes:
   aurora_mysql_data:
+  aurora_vendor:
+  aurora_node_modules:
