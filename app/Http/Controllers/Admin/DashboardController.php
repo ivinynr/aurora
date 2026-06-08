@@ -18,7 +18,7 @@ class DashboardController extends Controller
             'resumo' => $this->dashboardService->resumo(),
             'doacoesPorDia' => $this->dashboardService->doacoesPorDia(),
             'doacoesRecentes' => $this->dashboardService->doacoesRecentes(),
-            'instituicoesMaisArrecadadas' => $this->dashboardService->instituicoesMaisArrecadadas(),
+            'campanhasMaisArrecadadas' => $this->dashboardService->campanhasMaisArrecadadas(),
         ]);
     }
 }

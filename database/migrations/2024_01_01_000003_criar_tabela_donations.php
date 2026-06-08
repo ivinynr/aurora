@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('donations')) {
+        if (! Schema::hasTable('donations')) {
             Schema::create('donations', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('instituicao_id')->constrained('institutions')->cascadeOnDelete();
+                $table->foreignId('campanha_id')->constrained('campaigns')->cascadeOnDelete();
                 $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
                 $table->string('nome_doador');
                 $table->string('email_doador')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->timestamps();
 
                 $table->index('situacao');
-                $table->index(['instituicao_id', 'situacao']);
+                $table->index(['campanha_id', 'situacao']);
             });
         }
     }

@@ -29,8 +29,13 @@
 
             {{-- QR Code --}}
             <div class="w-56 h-56 mx-auto mb-6 bg-white rounded-xl border border-cream-200 flex items-center justify-center p-3">
-                @if(isset($pagamento['qr_code']) && $pagamento['qr_code'])
-                    <img src="data:image/png;base64,{{ $pagamento['qr_code'] }}" alt="QR Code PIX" class="w-full h-full">
+                @if(!empty($pagamento['qr_code']))
+                    @php
+                        $src = \Illuminate\Support\Str::startsWith($pagamento['qr_code'], 'data:')
+                            ? $pagamento['qr_code']
+                            : 'data:image/png;base64,' . $pagamento['qr_code'];
+                    @endphp
+                    <img src="{{ $src }}" alt="QR Code PIX" class="w-full h-full object-contain">
                 @else
                     <div class="text-center">
                         <span class="text-sm text-bark-300">QR Code PIX</span>
@@ -59,11 +64,11 @@
 
             {{-- Actions --}}
             <div class="space-y-3">
-                <a href="{{ route('doacao.confirmar', [$instituicao->slug, $doacao->id]) }}"
+                <a href="{{ route('doacao.confirmar', [$campanha->slug, $doacao->id]) }}"
                    class="block w-full py-3.5 text-sm font-semibold text-white bg-night-800 hover:bg-night-700 rounded-xl transition-colors text-center">
                     Já paguei, verificar
                 </a>
-                <a href="{{ route('instituicoes.show', $instituicao->slug) }}"
+                <a href="{{ route('campanhas.show', $campanha->slug) }}"
                    class="block w-full py-3 text-sm font-medium text-bark-400 hover:text-bark-600 text-center transition-colors">
                     Cancelar doação
                 </a>

@@ -26,6 +26,14 @@
                 </svg>
                 Dashboard
             </a>
+            <a href="{{ route('admin.campanhas.index') }}"
+               class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors
+               {{ request()->routeIs('admin.campanhas.*') || request()->routeIs('admin.atualizacoes.*') ? 'bg-terra-50 text-terra-600 font-medium' : 'text-bark-500 hover:bg-cream-100 hover:text-bark-700' }}">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                Campanhas
+            </a>
             <a href="{{ route('admin.instituicoes.index') }}"
                class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors
                {{ request()->routeIs('admin.instituicoes.*') ? 'bg-terra-50 text-terra-600 font-medium' : 'text-bark-500 hover:bg-cream-100 hover:text-bark-700' }}">

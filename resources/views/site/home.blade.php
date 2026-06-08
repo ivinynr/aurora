@@ -1,71 +1,145 @@
-<x-layout.app titulo="Aurora">
+<x-layout.app titulo="Aurora — Doe com confiança">
 
     {{-- Hero --}}
-    <section class="bg-cream-50">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[420px]">
-            {{-- Texto --}}
-            <div class="flex flex-col justify-center gap-5 px-8 py-14 lg:py-16 lg:px-12">
-                @if($estatisticas['total_doadores'] > 0)
-                    <div class="flex items-center gap-2 bg-white border border-cream-200 rounded-full px-4 py-1.5 w-fit text-xs text-rosa-500 font-medium">
-                        <span class="w-1.5 h-1.5 rounded-full bg-rosa-500"></span>
-                        {{ $estatisticas['total_doadores'] }} {{ $estatisticas['total_doadores'] === 1 ? 'doador' : 'doadores' }} na plataforma
-                    </div>
-                @endif
+    <section class="relative bg-night-800 overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,#3B82F6_0,transparent_45%),radial-gradient(circle_at_80%_0,#0D9488_0,transparent_40%)]"></div>
 
-                <h1 class="font-serif text-3xl sm:text-4xl font-bold text-night-800 leading-tight">
-                    Às vezes, um pequeno gesto
-                    <em class="text-rosa-500 block">muda uma vida inteira.</em>
-                </h1>
-
-                <p class="text-bark-400 text-[15px] leading-relaxed max-w-sm">
-                    Conectamos pessoas que querem ajudar com instituições que precisam de apoio real. Cada doação tem nome, rosto e história.
-                </p>
-
-                <div class="flex gap-7 mt-1">
-                    <div class="border-l-2 border-cream-200 pl-3.5">
-                        <p class="text-xl font-medium text-night-800">{{ $instituicoes->count() }}</p>
-                        <p class="text-xs text-bark-300">instituições</p>
-                    </div>
-                    <div class="border-l-2 border-cream-200 pl-3.5">
-                        <p class="text-xl font-medium text-night-800">{{ $estatisticas['total_doacoes'] }}</p>
-                        <p class="text-xs text-bark-300">doações</p>
-                    </div>
-                    <div class="border-l-2 border-cream-200 pl-3.5">
-                        <p class="text-xl font-medium text-night-800">R$ {{ number_format($estatisticas['total_doado'], 0, ',', '.') }}</p>
-                        <p class="text-xs text-bark-300">arrecadados</p>
-                    </div>
+        <div class="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 px-8 py-16 lg:py-20 items-center">
+            <div class="flex flex-col gap-5">
+                <div class="flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 w-fit text-xs text-cream-50 font-medium">
+                    <span class="w-1.5 h-1.5 rounded-full bg-rosa-400"></span>
+                    Pagamentos via PIX processados pela Confrapag
                 </div>
 
-                <a href="{{ route('instituicoes.index') }}"
-                   class="flex items-center gap-2 bg-rosa-500 hover:bg-rosa-600 text-white rounded-lg px-5 py-3 text-sm font-medium w-fit transition-colors mt-1">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                    Escolher uma instituição
+                <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    Transforme solidariedade em
+                    <span class="text-rosa-400">impacto real.</span>
+                </h1>
+
+                <p class="text-cream-200/90 text-[15px] leading-relaxed max-w-md">
+                    Doe para campanhas de instituições verificadas e acompanhe, com total transparência,
+                    cada real chegando a quem precisa.
+                </p>
+
+                <div class="flex flex-wrap gap-3 mt-1">
+                    <a href="{{ route('campanhas.index') }}"
+                       class="inline-flex items-center gap-2 bg-rosa-500 hover:bg-rosa-600 text-white rounded-xl px-6 py-3.5 text-sm font-semibold transition-colors">
+                        Ver campanhas
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="{{ route('instituicoes.index') }}"
+                       class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white rounded-xl px-6 py-3.5 text-sm font-semibold transition-colors">
+                        Conhecer instituições
+                    </a>
+                </div>
+
+                <div class="flex gap-8 mt-3">
+                    <div>
+                        <p class="text-2xl font-bold text-white">R$ {{ number_format($estatisticas['total_doado'], 0, ',', '.') }}</p>
+                        <p class="text-xs text-cream-200/70">arrecadados</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-white">{{ $estatisticas['total_doacoes'] }}</p>
+                        <p class="text-xs text-cream-200/70">doações</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-white">{{ $estatisticas['total_doadores'] }}</p>
+                        <p class="text-xs text-cream-200/70">doadores</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Imagens das campanhas em destaque --}}
+            <div class="hidden lg:grid grid-cols-2 gap-3">
+                @php $comImagem = $destaques->filter(fn($c) => $c->imagemUrl())->take(3); @endphp
+                @if($comImagem->count() >= 1)
+                    <div class="row-span-2 relative rounded-2xl overflow-hidden shadow-warm-lg">
+                        <img src="{{ $comImagem->first()->imagemUrl() }}" alt="{{ $comImagem->first()->titulo }}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-night-800/70 to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold line-clamp-2">{{ $comImagem->first()->titulo }}</span>
+                    </div>
+                    @foreach($comImagem->skip(1)->take(2) as $c)
+                        <div class="relative rounded-2xl overflow-hidden shadow-warm-lg h-40">
+                            <img src="{{ $c->imagemUrl() }}" alt="{{ $c->titulo }}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-night-800/70 to-transparent"></div>
+                            <span class="absolute bottom-2 left-3 right-3 text-white text-xs font-medium line-clamp-1">{{ $c->titulo }}</span>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="col-span-2 rounded-2xl bg-white/5 border border-white/10 h-72 flex items-center justify-center">
+                        <x-layout.logo tamanho="xl" cor="claro" />
+                    </div>
+                @endif
+            </div>
+        </div>
+    </section>
+
+    {{-- Selos de confiança --}}
+    <section class="bg-white border-b border-cream-200">
+        <div class="max-w-6xl mx-auto px-8 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            @foreach([
+                ['M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', 'Instituições verificadas'],
+                ['M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', 'Pagamento seguro via PIX'],
+                ['M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'Transparência total'],
+                ['M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', 'Cada doação acompanhada'],
+            ] as [$icone, $texto])
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-terra-50 text-terra-500 flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $icone }}"/></svg>
+                    </div>
+                    <p class="text-xs font-medium text-bark-600">{{ $texto }}</p>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- Campanhas em destaque --}}
+    <section class="bg-cream-100 py-14 lg:py-20">
+        <div class="max-w-6xl mx-auto px-8">
+            <div class="flex items-end justify-between mb-8">
+                <div>
+                    <p class="text-[11px] text-terra-500 font-semibold uppercase tracking-wider mb-1">Em destaque</p>
+                    <h2 class="font-serif text-2xl lg:text-3xl font-bold text-night-800">Campanhas que precisam de você agora</h2>
+                </div>
+                <a href="{{ route('campanhas.index') }}" class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-terra-500 hover:text-terra-600">
+                    Ver todas
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                 </a>
             </div>
 
-            {{-- Grid de fotos reais --}}
-            <div class="hidden lg:grid grid-cols-2 gap-0.5 overflow-hidden">
-                @php
-                    $comImagem = $instituicoes->filter(fn($i) => $i->imagem)->take(3);
-                @endphp
+            @if($destaques->isNotEmpty())
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($destaques as $campanha)
+                        <x-campanha.card :campanha="$campanha" />
+                    @endforeach
+                </div>
+            @else
+                <x-ui.card :hover="false" class="text-center py-16">
+                    <p class="font-serif text-xl text-bark-300">Nenhuma campanha em destaque ainda.</p>
+                    <a href="{{ route('campanhas.index') }}" class="text-sm text-terra-500 font-medium mt-2 inline-block">Ver todas as campanhas</a>
+                </x-ui.card>
+            @endif
+        </div>
+    </section>
 
-                @if($comImagem->count() >= 1)
-                    <div class="row-span-2 relative overflow-hidden">
-                        <img src="{{ Storage::url($comImagem->first()->imagem) }}" alt="{{ $comImagem->first()->nome }}"
-                             class="w-full h-full object-cover">
-                        <span class="absolute bottom-3 left-3 bg-white/90 text-night-800 text-[11px] font-medium px-2.5 py-1 rounded-full">
-                            {{ $comImagem->first()->nome }} · {{ $comImagem->first()->estado }}
-                        </span>
-                    </div>
-                @endif
+    {{-- Como funciona --}}
+    <section class="bg-white border-y border-cream-200 py-14 lg:py-20">
+        <div class="max-w-6xl mx-auto px-8">
+            <div class="text-center mb-12">
+                <p class="text-[11px] text-terra-500 font-semibold uppercase tracking-wider mb-1">Simples e transparente</p>
+                <h2 class="font-serif text-2xl lg:text-3xl font-bold text-night-800">Como funciona</h2>
+            </div>
 
-                @foreach($comImagem->skip(1)->take(2) as $inst)
-                    <div class="relative overflow-hidden">
-                        <img src="{{ Storage::url($inst->imagem) }}" alt="{{ $inst->nome }}"
-                             class="w-full h-full object-cover">
-                        <span class="absolute bottom-3 left-3 bg-white/90 text-night-800 text-[11px] font-medium px-2.5 py-1 rounded-full">
-                            {{ $inst->nome }} · {{ $inst->estado }}
-                        </span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach([
+                    ['1', 'Escolha uma campanha', 'Navegue por campanhas de instituições verificadas e encontre uma causa que toca o seu coração.'],
+                    ['2', 'Doe via PIX', 'Selecione o valor e pague com PIX em segundos. O QR Code é gerado com segurança pela Confrapag.'],
+                    ['3', 'Acompanhe o impacto', 'Veja a arrecadação crescer em tempo real e receba atualizações de como sua doação está ajudando.'],
+                ] as [$num, $titulo, $texto])
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-2xl bg-night-800 text-white font-serif text-xl font-bold flex items-center justify-center mb-4">{{ $num }}</div>
+                        <h3 class="font-serif text-lg font-bold text-night-800 mb-2">{{ $titulo }}</h3>
+                        <p class="text-sm text-bark-400 leading-relaxed">{{ $texto }}</p>
                     </div>
                 @endforeach
             </div>
@@ -74,121 +148,51 @@
 
     {{-- Faixa de impacto --}}
     <section class="bg-night-800">
-        <div class="max-w-6xl mx-auto px-8 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="max-w-6xl mx-auto px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center">
-                <p class="text-2xl font-medium text-cream-50">{{ $instituicoes->count() }} <span class="text-sm text-rosa-500">ONGs</span></p>
-                <p class="text-xs text-sage-400 mt-1">na plataforma</p>
+                <p class="text-3xl font-bold text-white">R$ {{ number_format($estatisticas['total_doado'], 0, ',', '.') }}</p>
+                <p class="text-xs text-cream-200/70 mt-1">arrecadados na plataforma</p>
             </div>
             <div class="text-center">
-                <p class="text-2xl font-medium text-cream-50">{{ $estatisticas['total_doacoes'] }} <span class="text-sm text-rosa-500">doações</span></p>
-                <p class="text-xs text-sage-400 mt-1">realizadas</p>
+                <p class="text-3xl font-bold text-white">{{ $estatisticas['total_doacoes'] }}</p>
+                <p class="text-xs text-cream-200/70 mt-1">doações realizadas</p>
             </div>
             <div class="text-center">
-                <p class="text-2xl font-medium text-cream-50">R$ {{ number_format($estatisticas['total_doado'], 0, ',', '.') }}</p>
-                <p class="text-xs text-sage-400 mt-1">arrecadados</p>
+                <p class="text-3xl font-bold text-white">{{ $estatisticas['total_doadores'] }}</p>
+                <p class="text-xs text-cream-200/70 mt-1">pessoas já doaram</p>
             </div>
             <div class="text-center">
-                <p class="text-2xl font-medium text-cream-50">{{ $estatisticas['total_doadores'] }} <span class="text-sm text-rosa-500">pessoas</span></p>
-                <p class="text-xs text-sage-400 mt-1">já doaram</p>
+                <p class="text-3xl font-bold text-white">R$ {{ number_format($estatisticas['ticket_medio'], 0, ',', '.') }}</p>
+                <p class="text-xs text-cream-200/70 mt-1">doação média</p>
             </div>
         </div>
     </section>
 
-    {{-- Instituições --}}
-    <section class="bg-cream-50 py-14 lg:py-20">
-        <div class="max-w-6xl mx-auto px-8">
-            <p class="text-[11px] text-rosa-500 font-medium uppercase tracking-wider mb-1">Perto de você</p>
-            <h2 class="font-serif text-2xl font-bold text-night-800">Instituições que precisam do seu apoio agora</h2>
-            <p class="text-sm text-bark-300 mt-1.5 mb-8">Cada uma com uma história real. Escolha uma e faça parte dela.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                @foreach($instituicoes as $instituicao)
-                    <a href="{{ route('instituicoes.show', $instituicao->slug) }}"
-                       class="group bg-white rounded-2xl border border-cream-200 overflow-hidden card-lift block">
-
-                        <div class="h-44 bg-cream-200 relative overflow-hidden">
-                            @if($instituicao->imagem)
-                                <img src="{{ Storage::url($instituicao->imagem) }}" alt="{{ $instituicao->nome }}"
-                                     class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700">
-                            @else
-                                <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cream-200 to-cream-300">
-                                    <span class="font-serif text-4xl font-bold text-bark-200">{{ mb_substr($instituicao->nome, 0, 1) }}</span>
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="p-5">
-                            <h3 class="font-serif text-[15px] font-bold text-night-800 mb-2 group-hover:text-rosa-500 transition-colors">
-                                {{ $instituicao->nome }}
-                            </h3>
-
-                            @if($instituicao->missao)
-                                <p class="text-[13px] text-bark-400 italic border-l-2 border-cream-200 pl-2.5 mb-4 line-clamp-2">
-                                    "{{ $instituicao->missao }}"
-                                </p>
-                            @else
-                                <p class="text-[13px] text-bark-400 border-l-2 border-cream-200 pl-2.5 mb-4 line-clamp-2">
-                                    {{ $instituicao->descricao }}
-                                </p>
-                            @endif
-
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    @if($instituicao->cidade)
-                                        <p class="text-xs text-bark-300 flex items-center gap-1">
-                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                            {{ $instituicao->cidade }}, {{ $instituicao->estado }}
-                                        </p>
-                                    @endif
-                                    @if($instituicao->valor_arrecadado > 0)
-                                        <p class="text-xs text-rosa-500 font-medium mt-1 flex items-center gap-1">
-                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                            R$ {{ number_format($instituicao->valor_arrecadado, 0, ',', '.') }} arrecadados
-                                        </p>
-                                    @endif
-                                </div>
-                                <span class="flex items-center gap-1.5 bg-night-800 text-white text-[13px] font-medium rounded-md px-3.5 py-1.5 group-hover:bg-night-700 transition-colors">
-                                    Apoiar
-                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-
-            @if($instituicoes->isEmpty())
-                <div class="text-center py-20">
-                    <p class="font-serif text-xl text-bark-300">Nenhuma instituição cadastrada ainda.</p>
-                </div>
-            @endif
-        </div>
-    </section>
-
-    {{-- Depoimentos / Últimas doações --}}
+    {{-- Últimas doações --}}
     @if($ultimasDoacoes->isNotEmpty())
-        <section class="bg-white border-t border-cream-200">
-            <div class="max-w-6xl mx-auto px-8 py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+        <section class="bg-cream-100 py-14 lg:py-20">
+            <div class="max-w-6xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
                 <div>
-                    <p class="text-[11px] text-rosa-500 font-medium uppercase tracking-wider mb-2">Histórias reais</p>
-                    <h2 class="font-serif text-2xl font-bold text-night-800 leading-snug">
-                        Quem doa, também recebe algo de volta.
+                    <p class="text-[11px] text-terra-500 font-semibold uppercase tracking-wider mb-2">Histórias reais</p>
+                    <h2 class="font-serif text-2xl lg:text-3xl font-bold text-night-800 leading-snug">
+                        Pessoas reais, ajudando de verdade.
                     </h2>
+                    <p class="text-sm text-bark-400 mt-3">Cada doação abaixo já foi confirmada e está fazendo a diferença.</p>
                 </div>
 
-                <div class="lg:col-span-2 flex flex-col gap-3.5">
+                <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     @foreach($ultimasDoacoes->take(4) as $doacao)
-                        <div class="bg-cream-50 rounded-xl p-5 border-l-[3px] {{ $loop->even ? 'border-night-800' : 'border-rosa-500' }}">
-                            <p class="text-[13px] text-bark-500 leading-relaxed italic mb-3">
-                                "Doou R$ {{ number_format($doacao->valor, 2, ',', '.') }} para {{ $doacao->instituicao->nome }}."
+                        <div class="bg-white rounded-xl p-5 border border-cream-200 shadow-warm">
+                            <p class="text-[13px] text-bark-500 leading-relaxed mb-3">
+                                Doou <span class="font-semibold text-sage-500">R$ {{ number_format($doacao->valor, 2, ',', '.') }}</span>
+                                para <span class="font-medium text-night-800">{{ $doacao->campanha->titulo }}</span>.
                             </p>
                             <div class="flex items-center gap-2.5">
-                                <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium
-                                    {{ $loop->even ? 'bg-sage-100 text-night-800' : 'bg-cream-200 text-rosa-500' }}">
-                                    {{ mb_strtoupper(mb_substr($doacao->nome_doador, 0, 1)) }}{{ mb_strtoupper(mb_substr(explode(' ', $doacao->nome_doador)[1] ?? '', 0, 1)) }}
+                                <div class="w-8 h-8 rounded-full bg-terra-50 text-terra-500 flex items-center justify-center text-xs font-semibold">
+                                    {{ mb_strtoupper(mb_substr($doacao->nomeExibicao(), 0, 1)) }}
                                 </div>
                                 <div>
-                                    <p class="text-[13px] font-medium text-night-800">{{ $doacao->nome_doador }}</p>
+                                    <p class="text-[13px] font-medium text-night-800">{{ $doacao->nomeExibicao() }}</p>
                                     <p class="text-xs text-bark-300">{{ $doacao->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
@@ -198,5 +202,20 @@
             </div>
         </section>
     @endif
+
+    {{-- CTA final --}}
+    <section class="bg-white border-t border-cream-200 py-16">
+        <div class="max-w-3xl mx-auto px-8 text-center">
+            <h2 class="font-serif text-2xl lg:text-3xl font-bold text-night-800 mb-3">Sua instituição também pode arrecadar aqui</h2>
+            <p class="text-sm text-bark-400 mb-6 max-w-xl mx-auto">
+                Crie campanhas, receba doações via PIX e preste contas com transparência. Tudo em um só lugar.
+            </p>
+            <a href="{{ route('campanhas.index') }}"
+               class="inline-flex items-center gap-2 bg-terra-500 hover:bg-terra-600 text-white rounded-xl px-7 py-3.5 text-sm font-semibold transition-colors">
+                Começar a doar agora
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
 
 </x-layout.app>

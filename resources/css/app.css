@@ -7,50 +7,62 @@
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
 
-    --color-cream-50: #FDF7F7;
-    --color-cream-100: #F8EAED;
-    --color-cream-200: #ECDADD;
-    --color-cream-300: #DEC8CD;
+    /* Paleta "Azul Confiança" — nomes de token mantidos por compatibilidade.
+       cream = cinza-gelo (fundos) | bark = slate (textos)
+       terra = azul (primário)     | night = navy (hero)
+       sage  = teal (sucesso)      | honey/rosa = âmbar (acento/CTA) */
 
-    --color-bark-50: #F7F3EF;
-    --color-bark-100: #E8DFD4;
-    --color-bark-200: #D4C5B3;
-    --color-bark-300: #B5A08A;
-    --color-bark-400: #9A8570;
-    --color-bark-500: #7A6B5D;
-    --color-bark-600: #6B5E50;
-    --color-bark-700: #564A3E;
-    --color-bark-800: #3D3229;
-    --color-bark-900: #2A211A;
+    /* cream → cinza-gelo (fundos claros, bordas suaves) */
+    --color-cream-50: #FBFDFF;
+    --color-cream-100: #F4F7FB;
+    --color-cream-200: #E6EDF5;
+    --color-cream-300: #D3DEEC;
 
-    --color-terra-50: #FDF5F0;
-    --color-terra-100: #F9E6DB;
-    --color-terra-200: #F0C9B3;
-    --color-terra-300: #E0A080;
-    --color-terra-400: #C4785B;
-    --color-terra-500: #A8624A;
-    --color-terra-600: #8B4F3B;
+    /* bark → slate (textos e neutros) */
+    --color-bark-50: #F8FAFC;
+    --color-bark-100: #F1F5F9;
+    --color-bark-200: #E2E8F0;
+    --color-bark-300: #94A3B8;
+    --color-bark-400: #64748B;
+    --color-bark-500: #475569;
+    --color-bark-600: #334155;
+    --color-bark-700: #1E293B;
+    --color-bark-800: #0F172A;
+    --color-bark-900: #020617;
 
-    --color-sage-50: #F4F6F2;
-    --color-sage-100: #E5EAE0;
-    --color-sage-200: #C8D3BF;
-    --color-sage-300: #A3B396;
-    --color-sage-400: #7A8B6F;
-    --color-sage-500: #5F6F54;
+    /* terra → azul (primário: botões, links, foco) */
+    --color-terra-50: #EFF6FF;
+    --color-terra-100: #DBEAFE;
+    --color-terra-200: #BFDBFE;
+    --color-terra-300: #60A5FA;
+    --color-terra-400: #3B82F6;
+    --color-terra-500: #1D4ED8;
+    --color-terra-600: #1E40AF;
 
-    --color-honey-50: #FDF8EC;
-    --color-honey-100: #F9EDCE;
-    --color-honey-200: #F0D89A;
-    --color-honey-300: #D4A853;
-    --color-honey-400: #B8903A;
+    /* sage → teal (progresso, sucesso) */
+    --color-sage-50: #F0FDFA;
+    --color-sage-100: #CCFBF1;
+    --color-sage-200: #99F6E4;
+    --color-sage-300: #5EEAD4;
+    --color-sage-400: #0D9488;
+    --color-sage-500: #0F766E;
 
-    --color-night-800: #1A3028;
-    --color-night-700: #24402F;
+    /* honey → âmbar (destaques, avisos) */
+    --color-honey-50: #FFFBEB;
+    --color-honey-100: #FEF3C7;
+    --color-honey-200: #FDE68A;
+    --color-honey-300: #F59E0B;
+    --color-honey-400: #B45309;
 
-    --color-rosa-300: #E8A0BF;
-    --color-rosa-400: #D4789E;
-    --color-rosa-500: #C9506A;
-    --color-rosa-600: #A83F56;
+    /* night → navy (hero, faixa de impacto) */
+    --color-night-800: #1E3A8A;
+    --color-night-700: #1E40AF;
+
+    /* rosa → âmbar (CTA quente "doar", acentos) */
+    --color-rosa-300: #FCD34D;
+    --color-rosa-400: #F59E0B;
+    --color-rosa-500: #D97706;
+    --color-rosa-600: #B45309;
 
     --animate-slide-up: slide-up 0.5s ease-out both;
     --animate-fade-in: fade-in 0.6s ease-out both;
@@ -72,11 +84,11 @@
 
 @layer utilities {
     .shadow-warm {
-        box-shadow: 0 1px 3px rgb(61 50 41 / 0.04), 0 4px 16px rgb(61 50 41 / 0.06);
+        box-shadow: 0 1px 3px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.06);
     }
 
     .shadow-warm-lg {
-        box-shadow: 0 2px 6px rgb(61 50 41 / 0.05), 0 8px 32px rgb(61 50 41 / 0.08);
+        box-shadow: 0 2px 6px rgb(15 23 42 / 0.05), 0 8px 32px rgb(15 23 42 / 0.08);
     }
 
     .card-lift {
@@ -84,12 +96,12 @@
     }
     .card-lift:hover {
         transform: translateY(-3px);
-        box-shadow: 0 2px 6px rgb(61 50 41 / 0.05), 0 12px 36px rgb(61 50 41 / 0.10);
+        box-shadow: 0 2px 6px rgb(15 23 42 / 0.05), 0 12px 36px rgb(15 23 42 / 0.10);
     }
 
     .progress-fill {
         animation: progress-fill 1s ease-out forwards;
-        background: linear-gradient(90deg, var(--color-terra-400), var(--color-terra-300));
+        background: linear-gradient(90deg, var(--color-sage-400), var(--color-sage-300));
     }
 }
 

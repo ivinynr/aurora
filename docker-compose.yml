@@ -6,14 +6,12 @@ services:
     container_name: aurora-app
     ports:
       - "8001:8000"
-      - "5175:5175"
     volumes:
       - .:/var/www
+      - ./.env.docker:/var/www/.env
       - aurora_vendor:/var/www/vendor
       - aurora_node_modules:/var/www/node_modules
     environment:
-      DB_HOST: mysql
-      DB_PORT: 3306
       COMPOSER_PROCESS_TIMEOUT: 0
     depends_on:
       mysql:
@@ -24,7 +22,7 @@ services:
     image: mysql:8.0
     container_name: aurora-mysql
     ports:
-      - "3307:3306"
+      - "3308:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: aurora

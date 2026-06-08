@@ -13,6 +13,7 @@
                     <p class="text-xs font-semibold text-bark-500 uppercase tracking-wider mb-3">Navegação</p>
                     <div class="space-y-2">
                         <a href="{{ route('home') }}" class="block text-sm text-bark-400 hover:text-bark-700 transition-colors">Início</a>
+                        <a href="{{ route('campanhas.index') }}" class="block text-sm text-bark-400 hover:text-bark-700 transition-colors">Campanhas</a>
                         <a href="{{ route('instituicoes.index') }}" class="block text-sm text-bark-400 hover:text-bark-700 transition-colors">Instituições</a>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('institutions')) {
+        if (! Schema::hasTable('institutions')) {
             Schema::create('institutions', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')->constrained()->cascadeOnDelete();
@@ -16,9 +16,7 @@ return new class extends Migration
                 $table->string('slug')->unique();
                 $table->text('descricao');
                 $table->string('missao')->nullable();
-                $table->decimal('meta', 12, 2)->default(0);
-                $table->decimal('valor_arrecadado', 12, 2)->default(0);
-                $table->string('imagem')->nullable();
+                $table->string('logo')->nullable();
                 $table->string('telefone', 20)->nullable();
                 $table->string('email')->nullable();
                 $table->string('instagram', 100)->nullable();
@@ -34,7 +32,6 @@ return new class extends Migration
                 $table->index('cidade');
                 $table->index('estado');
                 $table->index('ativa');
-                $table->index('slug');
             });
         }
     }

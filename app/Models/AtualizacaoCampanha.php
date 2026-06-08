@@ -6,21 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AtualizacaoInstituicao extends Model
+class AtualizacaoCampanha extends Model
 {
     use HasFactory;
 
-    protected $table = 'institution_updates';
+    protected $table = 'campaign_updates';
 
     protected $fillable = [
-        'instituicao_id',
+        'campanha_id',
         'titulo',
         'descricao',
         'imagem',
     ];
 
-    public function instituicao(): BelongsTo
+    public function campanha(): BelongsTo
     {
-        return $this->belongsTo(Instituicao::class, 'instituicao_id');
+        return $this->belongsTo(Campanha::class, 'campanha_id');
     }
 }

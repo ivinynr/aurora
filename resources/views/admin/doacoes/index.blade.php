@@ -2,11 +2,11 @@
     {{-- Filters --}}
     <form method="GET" action="{{ route('admin.doacoes.index') }}" class="mb-6">
         <div class="flex flex-wrap gap-3">
-            <select name="instituicao_id" class="px-4 py-2.5 rounded-xl border border-cream-300 text-sm bg-white text-bark-800 focus:border-terra-300 focus:ring-2 focus:ring-terra-100">
-                <option value="">Todas as instituições</option>
-                @foreach($instituicoes as $inst)
-                    <option value="{{ $inst->id }}" {{ request('instituicao_id') == $inst->id ? 'selected' : '' }}>
-                        {{ $inst->nome }}
+            <select name="campanha_id" class="px-4 py-2.5 rounded-xl border border-cream-300 text-sm bg-white text-bark-800 focus:border-terra-300 focus:ring-2 focus:ring-terra-100">
+                <option value="">Todas as campanhas</option>
+                @foreach($campanhas as $camp)
+                    <option value="{{ $camp->id }}" {{ request('campanha_id') == $camp->id ? 'selected' : '' }}>
+                        {{ $camp->titulo }}
                     </option>
                 @endforeach
             </select>
@@ -30,7 +30,7 @@
                 <thead>
                     <tr class="border-b border-cream-200">
                         <th class="text-left text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Doador</th>
-                        <th class="text-left text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Instituição</th>
+                        <th class="text-left text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Campanha</th>
                         <th class="text-right text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Valor</th>
                         <th class="text-center text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Situação</th>
                         <th class="text-right text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Data</th>
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-sm text-bark-500">{{ $doacao->instituicao->nome }}</td>
+                            <td class="px-6 py-4 text-sm text-bark-500">{{ $doacao->campanha->titulo }}</td>
                             <td class="px-6 py-4 text-sm font-bold text-bark-700 text-right">R$ {{ number_format($doacao->valor, 2, ',', '.') }}</td>
                             <td class="px-6 py-4 text-center">
                                 @php

@@ -4,8 +4,8 @@
    class="group bg-white rounded-xl shadow-warm border border-cream-200 overflow-hidden card-lift block">
 
     <div class="aspect-[16/10] bg-cream-200 relative overflow-hidden">
-        @if($instituicao->imagem)
-            <img src="{{ Storage::url($instituicao->imagem) }}" alt="{{ $instituicao->nome }}"
+        @if($instituicao->logoUrl())
+            <img src="{{ $instituicao->logoUrl() }}" alt="{{ $instituicao->nome }}"
                  class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700">
         @else
             <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cream-200 to-cream-300">
@@ -31,8 +31,9 @@
             @else
                 <span></span>
             @endif
-            <span class="text-xs font-semibold text-terra-500 group-hover:text-terra-600 transition-colors">
-                Apoiar &rarr;
+            <span class="text-xs font-medium text-bark-400">
+                {{ $instituicao->campanhas_count ?? $instituicao->campanhas->count() }}
+                {{ ($instituicao->campanhas_count ?? 0) === 1 ? 'campanha' : 'campanhas' }}
             </span>
         </div>
     </div>

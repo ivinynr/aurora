@@ -31,10 +31,7 @@
                     <x-ui.input label="Missão" nome="missao" placeholder="Frase curta que define a missão (ex: Transformar vidas através da educação)" :valor="$instituicao->missao ?? ''" />
                     <x-ui.input label="Descrição" nome="descricao" tipo="textarea" :obrigatorio="true" placeholder="Descreva a instituição, o trabalho que realiza e o impacto social..." :valor="$instituicao->descricao ?? ''" />
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <x-ui.input label="Meta de arrecadação" nome="meta" tipo="number" placeholder="0.00 (sem meta)" dica="Deixe 0 para não exibir barra de progresso" :valor="$instituicao->meta ?? ''" />
-                        <x-ui.input label="Chave PIX" nome="chave_pix" placeholder="E-mail, CPF/CNPJ ou telefone" :valor="$instituicao->chave_pix ?? ''" />
-                    </div>
+                    <x-ui.input label="Chave PIX" nome="chave_pix" placeholder="E-mail, CPF/CNPJ ou telefone" dica="Usada como referência da instituição." :valor="$instituicao->chave_pix ?? ''" />
                 </div>
             </x-ui.card>
 
@@ -59,22 +56,20 @@
             </x-ui.card>
 
             <x-ui.card :hover="false" padding="lg" class="mt-6">
-                <h2 class="font-serif text-lg font-bold text-bark-800 mb-6">Imagem e Situação</h2>
+                <h2 class="font-serif text-lg font-bold text-bark-800 mb-6">Logo e Situação</h2>
 
                 <div class="space-y-5">
-                    <x-ui.input label="Vídeo (YouTube)" nome="video_url" placeholder="https://www.youtube.com/watch?v=..." dica="Cole o link do YouTube. Será exibido como cabeçalho na página da instituição." :valor="$instituicao->video_url ?? ''" />
-
                     <div>
-                        <label class="block text-sm font-medium text-bark-700 mb-1.5">Imagem de capa</label>
-                        @if(isset($instituicao) && $instituicao->imagem)
-                            <div class="mb-3 w-32 h-20 rounded-lg overflow-hidden bg-cream-200">
-                                <img src="{{ Storage::url($instituicao->imagem) }}" class="w-full h-full object-cover">
+                        <label class="block text-sm font-medium text-bark-700 mb-1.5">Logo da instituição</label>
+                        @if(isset($instituicao) && $instituicao->logoUrl())
+                            <div class="mb-3 w-24 h-24 rounded-xl overflow-hidden bg-cream-200">
+                                <img src="{{ $instituicao->logoUrl() }}" class="w-full h-full object-cover">
                             </div>
                         @endif
-                        <input type="file" name="imagem" accept="image/*"
+                        <input type="file" name="logo" accept="image/*"
                                class="block w-full text-sm text-bark-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-terra-50 file:text-terra-600 hover:file:bg-terra-100">
                         <p class="text-xs text-bark-400 mt-1.5">JPG, PNG ou WebP. Máximo 2MB.</p>
-                        @error('imagem')
+                        @error('logo')
                             <p class="text-xs text-terra-500 font-medium mt-1">{{ $message }}</p>
                         @enderror
                     </div>

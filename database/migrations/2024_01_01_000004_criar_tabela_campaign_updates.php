@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('institution_updates')) {
-            Schema::create('institution_updates', function (Blueprint $table) {
+        if (!Schema::hasTable('campaign_updates')) {
+            Schema::create('campaign_updates', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('instituicao_id')->constrained('institutions')->cascadeOnDelete();
+                $table->foreignId('campanha_id')->constrained('campaigns')->cascadeOnDelete();
                 $table->string('titulo');
                 $table->text('descricao');
                 $table->string('imagem')->nullable();
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('institution_updates');
+        Schema::dropIfExists('campaign_updates');
     }
 };
