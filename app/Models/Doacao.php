@@ -6,6 +6,7 @@ use App\Enums\SituacaoDoacao;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Doacao extends Model
 {
@@ -14,7 +15,7 @@ class Doacao extends Model
     protected $table = 'donations';
 
     protected $fillable = [
-        'instituicao_id',
+        'campanha_id',
         'user_id',
         'nome_doador',
         'email_doador',
@@ -34,14 +35,19 @@ class Doacao extends Model
         ];
     }
 
-    public function instituicao(): BelongsTo
+    public function campanha(): BelongsTo
     {
-        return $this->belongsTo(Instituicao::class, 'instituicao_id');
+        return $this->belongsTo(Campanha::class, 'campanha_id');
     }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function transacoes(): HasMany
+    {
+        return $this->hasMany(TransacaoPagamento::class, 'doacao_id');
     }
 
     public function nomeExibicao(): string

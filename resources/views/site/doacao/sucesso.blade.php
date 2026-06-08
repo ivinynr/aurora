@@ -30,8 +30,8 @@
 
             <div class="space-y-2.5 text-sm mb-8">
                 <div class="flex justify-between py-2 border-b border-cream-200">
-                    <span class="text-bark-400">Instituição</span>
-                    <span class="font-medium text-bark-700">{{ $instituicao->nome }}</span>
+                    <span class="text-bark-400">Campanha</span>
+                    <span class="font-medium text-bark-700 text-right">{{ $campanha->titulo }}</span>
                 </div>
                 <div class="flex justify-between py-2 border-b border-cream-200">
                     <span class="text-bark-400">Doador</span>
@@ -45,9 +45,9 @@
                 @endif
             </div>
 
-            <a href="{{ route('instituicoes.show', $instituicao->slug) }}"
+            <a href="{{ route('campanhas.show', $campanha->slug) }}"
                class="block w-full py-3.5 text-sm font-semibold text-white bg-night-800 hover:bg-night-700 rounded-xl transition-colors text-center">
-                Ver {{ $instituicao->nome }}
+                Voltar para a campanha
             </a>
         </x-ui.card>
     </section>

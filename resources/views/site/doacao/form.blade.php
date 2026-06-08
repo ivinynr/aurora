@@ -1,4 +1,4 @@
-<x-layout.app :titulo="'Doar para ' . $instituicao->nome">
+<x-layout.app :titulo="'Doar para ' . $campanha->titulo">
     <section class="max-w-xl mx-auto px-6 pt-10 pb-24">
         <x-doacao.stepper :etapaAtual="1" />
 
@@ -14,7 +14,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('doacao.store', $instituicao->slug) }}"
+            <form method="POST" action="{{ route('doacao.store', $campanha->slug) }}"
                   x-data="{
                       valor: '{{ old('valor', '') }}',
                       anonimo: {{ old('anonimo') ? 'true' : 'false' }},
@@ -89,7 +89,7 @@
         </x-ui.card>
 
         <p class="text-center text-xs text-bark-300 mt-4">
-            Doação para <span class="font-medium text-bark-500">{{ $instituicao->nome }}</span>
+            Doação para <span class="font-medium text-bark-500">{{ $campanha->titulo }}</span>
         </p>
     </section>
 </x-layout.app>

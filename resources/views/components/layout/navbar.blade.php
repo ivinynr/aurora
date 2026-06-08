@@ -7,6 +7,7 @@
 
             <div class="hidden md:flex items-center gap-8">
                 <a href="{{ route('home') }}" class="text-sm text-bark-500 hover:text-bark-800 transition-colors">Início</a>
+                <a href="{{ route('campanhas.index') }}" class="text-sm text-bark-500 hover:text-bark-800 transition-colors">Campanhas</a>
                 <a href="{{ route('instituicoes.index') }}" class="text-sm text-bark-500 hover:text-bark-800 transition-colors">Instituições</a>
                 @auth
                     <a href="{{ route('admin.dashboard') }}" class="text-sm text-rosa-500 hover:text-rosa-600 font-medium border-b-2 border-rosa-500 pb-0.5 transition-colors">Painel</a>
@@ -29,6 +30,7 @@
     <div x-show="aberto" x-cloak x-transition class="md:hidden border-t border-cream-300/60 bg-cream-100">
         <div class="px-6 py-4 space-y-3">
             <a href="{{ route('home') }}" class="block text-sm text-bark-600">Início</a>
+            <a href="{{ route('campanhas.index') }}" class="block text-sm text-bark-600">Campanhas</a>
             <a href="{{ route('instituicoes.index') }}" class="block text-sm text-bark-600">Instituições</a>
             @auth
                 <a href="{{ route('admin.dashboard') }}" class="block text-sm text-rosa-500 font-medium">Painel</a>

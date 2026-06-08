@@ -3,18 +3,20 @@
 namespace App\Services;
 
 use App\Enums\SituacaoDoacao;
+use App\Models\Campanha;
 use App\Models\Doacao;
-use App\Models\Instituicao;
+use App\Models\TransacaoPagamento;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class DoacaoService
 {
-    public function registrar(Instituicao $instituicao, array $dados): Doacao
+    public function registrar(Campanha $campanha, array $dados): Doacao
     {
         return Doacao::create([
-            'instituicao_id' => $instituicao->id,
+            'campanha_id' => $campanha->id,
+            'user_id' => $dados['user_id'] ?? null,
             'nome_doador' => $dados['nome_doador'],
             'email_doador' => $dados['email_doador'] ?? null,
             'valor' => $dados['valor'],
@@ -22,6 +24,27 @@ class DoacaoService
             'anonimo' => $dados['anonimo'] ?? false,
             'mensagem' => $dados['mensagem'] ?? null,
         ]);
+    }
+
+    public function registrarCobranca(Doacao $doacao, array $pagamento): TransacaoPagamento
+    {
+        $transacao = TransacaoPagamento::create([
+            'doacao_id' => $doacao->id,
+            'gateway' => $pagamento['gateway'] ?? 'confrapix',
+            'transaction_id' => $pagamento['transaction_id'] ?? null,
+            'valor' => $doacao->valor,
+            'status' => SituacaoDoacao::PENDENTE->value,
+            'qr_code' => $pagamento['qr_code'] ?? null,
+            'qr_code_text' => $pagamento['qr_code_text'] ?? null,
+            'expira_em' => $pagamento['expiracao'] ?? null,
+            'payload' => $pagamento,
+        ]);
+
+        if (! empty($pagamento['transaction_id'])) {
+            $doacao->update(['transaction_id' => $pagamento['transaction_id']]);
+        }
+
+        return $transacao;
     }
 
     public function confirmar(Doacao $doacao, string $transactionId): Doacao
@@ -32,7 +55,13 @@ class DoacaoService
                 'transaction_id' => $transactionId,
             ]);
 
-            $doacao->instituicao->increment('valor_arrecadado', $doacao->valor);
+            $doacao->campanha()->increment('valor_arrecadado', $doacao->valor);
+
+            $doacao->transacoes()->latest('id')->limit(1)->update([
+                'status' => SituacaoDoacao::CONFIRMADA->value,
+                'transaction_id' => $transactionId,
+                'pago_em' => now(),
+            ]);
         });
 
         return $doacao->fresh();
@@ -40,26 +69,26 @@ class DoacaoService
 
     public function ultimasDoacoes(int $limite = 10): Collection
     {
-        return Doacao::with('instituicao')
+        return Doacao::with('campanha.instituicao')
             ->where('situacao', SituacaoDoacao::CONFIRMADA->value)
-            ->orderBy('created_at', 'desc')
+            ->orderByDesc('created_at')
             ->limit($limite)
             ->get();
     }
 
     public function listarPaginado(array $filtros = []): LengthAwarePaginator
     {
-        $query = Doacao::with('instituicao');
+        $query = Doacao::with('campanha.instituicao');
 
-        if (!empty($filtros['instituicao_id'])) {
-            $query->where('instituicao_id', $filtros['instituicao_id']);
+        if (! empty($filtros['campanha_id'])) {
+            $query->where('campanha_id', $filtros['campanha_id']);
         }
 
-        if (!empty($filtros['situacao'])) {
+        if (! empty($filtros['situacao'])) {
             $query->where('situacao', $filtros['situacao']);
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate(20);
+        return $query->orderByDesc('created_at')->paginate(20)->withQueryString();
     }
 
     public function estatisticas(): array

@@ -32,8 +32,8 @@ class InstituicaoController extends Controller
         $dados = $request->validated();
         $dados['user_id'] = auth()->id();
 
-        if ($request->hasFile('imagem')) {
-            $dados['imagem'] = $request->file('imagem')->store('instituicoes', 'public');
+        if ($request->hasFile('logo')) {
+            $dados['logo'] = $request->file('logo')->store('instituicoes', 'public');
         }
 
         $this->instituicaoService->criar($dados);
@@ -53,8 +53,8 @@ class InstituicaoController extends Controller
     {
         $dados = $request->validated();
 
-        if ($request->hasFile('imagem')) {
-            $dados['imagem'] = $request->file('imagem')->store('instituicoes', 'public');
+        if ($request->hasFile('logo')) {
+            $dados['logo'] = $request->file('logo')->store('instituicoes', 'public');
         }
 
         $this->instituicaoService->atualizar($instituicao, $dados);

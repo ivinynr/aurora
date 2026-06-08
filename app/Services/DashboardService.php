@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Enums\SituacaoCampanha;
 use App\Enums\SituacaoDoacao;
+use App\Models\Campanha;
 use App\Models\Doacao;
 use App\Models\Instituicao;
 use Illuminate\Support\Collection;
@@ -11,15 +13,14 @@ class DashboardService
 {
     public function __construct(
         private DoacaoService $doacaoService,
-        private InstituicaoService $instituicaoService,
     ) {}
 
     public function resumo(): array
     {
-        $estatisticasDoacoes = $this->doacaoService->estatisticas();
-
         return [
-            ...$estatisticasDoacoes,
+            ...$this->doacaoService->estatisticas(),
+            'total_campanhas' => Campanha::count(),
+            'campanhas_ativas' => Campanha::where('situacao', SituacaoCampanha::ATIVA->value)->count(),
             'total_instituicoes' => Instituicao::where('ativa', true)->count(),
         ];
     }
@@ -34,11 +35,11 @@ class DashboardService
             ->get();
     }
 
-    public function instituicoesMaisArrecadadas(int $limite = 5): Collection
+    public function campanhasMaisArrecadadas(int $limite = 5): Collection
     {
-        return Instituicao::where('ativa', true)
+        return Campanha::with('instituicao')
             ->where('valor_arrecadado', '>', 0)
-            ->orderBy('valor_arrecadado', 'desc')
+            ->orderByDesc('valor_arrecadado')
             ->limit($limite)
             ->get();
     }

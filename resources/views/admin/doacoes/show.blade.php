@@ -25,8 +25,12 @@
                     </div>
                 @endif
                 <div class="flex items-center justify-between py-2 border-b border-cream-100">
+                    <span class="text-sm text-bark-500">Campanha</span>
+                    <span class="text-sm font-semibold text-bark-700 text-right">{{ $doacao->campanha->titulo }}</span>
+                </div>
+                <div class="flex items-center justify-between py-2 border-b border-cream-100">
                     <span class="text-sm text-bark-500">Instituição</span>
-                    <span class="text-sm font-semibold text-bark-700">{{ $doacao->instituicao->nome }}</span>
+                    <span class="text-sm text-bark-700 text-right">{{ $doacao->campanha->instituicao->nome }}</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-cream-100">
                     <span class="text-sm text-bark-500">Situação</span>
@@ -63,5 +67,25 @@
                 @endif
             </div>
         </x-ui.card>
+
+        @if($doacao->transacoes->isNotEmpty())
+            <x-ui.card :hover="false" padding="lg" class="mt-6">
+                <h2 class="font-serif text-lg font-bold text-bark-800 mb-4">Transações de pagamento</h2>
+                <div class="space-y-3">
+                    @foreach($doacao->transacoes as $transacao)
+                        <div class="p-4 rounded-xl bg-cream-100 text-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-mono text-xs text-bark-500">{{ $transacao->transaction_id ?? '—' }}</span>
+                                <x-ui.badge :cor="$transacao->status === 'confirmada' ? 'sage' : 'honey'">{{ ucfirst($transacao->status) }}</x-ui.badge>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-bark-400">
+                                <span>Gateway: {{ $transacao->gateway }}</span>
+                                <span>{{ $transacao->pago_em ? 'Pago em ' . $transacao->pago_em->format('d/m/Y H:i') : 'Criada em ' . $transacao->created_at->format('d/m/Y H:i') }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </x-ui.card>
+        @endif
     </div>
 </x-layout.admin>

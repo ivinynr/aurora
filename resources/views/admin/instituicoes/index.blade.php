@@ -16,8 +16,7 @@
                     <tr class="border-b border-cream-200">
                         <th class="text-left text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Instituição</th>
                         <th class="text-left text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Cidade</th>
-                        <th class="text-right text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Arrecadado</th>
-                        <th class="text-right text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Meta</th>
+                        <th class="text-center text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Campanhas</th>
                         <th class="text-center text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Situação</th>
                         <th class="text-right text-xs font-semibold text-bark-500 uppercase tracking-wider px-6 py-4">Ações</th>
                     </tr>
@@ -32,19 +31,12 @@
                                     </div>
                                     <div>
                                         <p class="text-sm font-semibold text-bark-700">{{ $instituicao->nome }}</p>
-                                        <p class="text-xs text-bark-400">{{ $instituicao->total_doadores ?? 0 }} apoiadores</p>
+                                        <p class="text-xs text-bark-400">{{ $instituicao->email ?? '—' }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-sm text-bark-500">{{ $instituicao->cidade ?? '—' }}</td>
-                            <td class="px-6 py-4 text-sm font-semibold text-bark-700 text-right">R$ {{ number_format($instituicao->valor_arrecadado, 2, ',', '.') }}</td>
-                            <td class="px-6 py-4 text-sm text-bark-500 text-right">
-                                @if($instituicao->meta > 0)
-                                    R$ {{ number_format($instituicao->meta, 2, ',', '.') }}
-                                @else
-                                    —
-                                @endif
-                            </td>
+                            <td class="px-6 py-4 text-sm font-semibold text-bark-700 text-center">{{ $instituicao->campanhas_count ?? 0 }}</td>
                             <td class="px-6 py-4 text-center">
                                 @if($instituicao->ativa)
                                     <x-ui.badge cor="sage">Ativa</x-ui.badge>
@@ -76,7 +68,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-bark-400">
+                            <td colspan="5" class="px-6 py-12 text-center text-bark-400">
                                 Nenhuma instituição cadastrada. Comece adicionando uma!
                             </td>
                         </tr>

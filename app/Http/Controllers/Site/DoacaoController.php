@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Enums\SituacaoCampanha;
+use App\Enums\SituacaoDoacao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DoacaoRequest;
-use App\Models\Instituicao;
+use App\Models\Campanha;
 use App\Services\DoacaoService;
 use App\Services\Pagamento\PagamentoServiceInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DoacaoController extends Controller
@@ -18,40 +21,56 @@ class DoacaoController extends Controller
 
     public function create(string $slug): View
     {
-        $instituicao = Instituicao::where('slug', $slug)->where('ativa', true)->firstOrFail();
+        $campanha = $this->campanhaAtiva($slug);
 
         return view('site.doacao.form', [
-            'instituicao' => $instituicao,
+            'campanha' => $campanha,
         ]);
     }
 
-    public function store(DoacaoRequest $request, string $slug): View
+    public function store(DoacaoRequest $request, string $slug): View|RedirectResponse
     {
-        $instituicao = Instituicao::where('slug', $slug)->where('ativa', true)->firstOrFail();
+        $campanha = $this->campanhaAtiva($slug);
 
-        $doacao = $this->doacaoService->registrar($instituicao, $request->validated());
+        $doacao = $this->doacaoService->registrar($campanha, $request->validated());
 
         $pagamento = $this->pagamentoService->gerarCobrancaPix(
-            $doacao->valor,
-            "Doação para {$instituicao->nome}",
-            "DOA-{$doacao->id}"
+            (float) $doacao->valor,
+            "Doação para {$campanha->titulo}",
+            "DOA-{$doacao->id}",
         );
 
+        if (! empty($pagamento['erro'])) {
+            $doacao->delete();
+
+            return back()
+                ->withInput()
+                ->with('erro', $pagamento['mensagem'] ?? 'Não foi possível gerar a cobrança PIX no momento.');
+        }
+
+        $this->doacaoService->registrarCobranca($doacao, $pagamento);
+
         return view('site.doacao.pagamento', [
-            'instituicao' => $instituicao,
-            'doacao' => $doacao,
+            'campanha' => $campanha,
+            'doacao' => $doacao->fresh(),
             'pagamento' => $pagamento,
         ]);
     }
 
-    public function confirmar(string $slug, int $doacaoId)
+    public function confirmar(string $slug, int $doacaoId): RedirectResponse
     {
-        $instituicao = Instituicao::where('slug', $slug)->firstOrFail();
-        $doacao = $instituicao->doacoes()->findOrFail($doacaoId);
+        $campanha = Campanha::where('slug', $slug)->firstOrFail();
+        $doacao = $campanha->doacoes()->findOrFail($doacaoId);
 
-        if ($doacao->situacao->value === 'pendente') {
-            $resultado = $this->pagamentoService->consultarPagamento($doacao->transaction_id ?? "DOA-{$doacao->id}");
-            $this->doacaoService->confirmar($doacao, $resultado['transaction_id'] ?? "CONF-{$doacao->id}");
+        if ($doacao->situacao === SituacaoDoacao::PENDENTE) {
+            $resultado = $this->pagamentoService->consultarPagamento(
+                $doacao->transaction_id ?? "DOA-{$doacao->id}",
+            );
+
+            $this->doacaoService->confirmar(
+                $doacao,
+                $resultado['transaction_id'] ?? "CONF-{$doacao->id}",
+            );
         }
 
         return redirect()->route('doacao.sucesso', [$slug, $doacaoId]);
@@ -59,12 +78,19 @@ class DoacaoController extends Controller
 
     public function sucesso(string $slug, int $doacaoId): View
     {
-        $instituicao = Instituicao::where('slug', $slug)->firstOrFail();
-        $doacao = $instituicao->doacoes()->findOrFail($doacaoId);
+        $campanha = Campanha::where('slug', $slug)->firstOrFail();
+        $doacao = $campanha->doacoes()->findOrFail($doacaoId);
 
         return view('site.doacao.sucesso', [
-            'instituicao' => $instituicao,
+            'campanha' => $campanha,
             'doacao' => $doacao,
         ]);
+    }
+
+    private function campanhaAtiva(string $slug): Campanha
+    {
+        return Campanha::where('slug', $slug)
+            ->where('situacao', SituacaoCampanha::ATIVA->value)
+            ->firstOrFail();
     }
 }

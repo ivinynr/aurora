@@ -13,10 +13,8 @@ class InstituicaoService
     public function listarAtivas(): Collection
     {
         return Instituicao::where('ativa', true)
-            ->withCount(['doacoes as total_doadores' => function ($q) {
-                $q->where('situacao', 'confirmada');
-            }])
-            ->orderBy('valor_arrecadado', 'desc')
+            ->withCount('campanhas')
+            ->orderBy('nome')
             ->get();
     }
 
@@ -24,7 +22,7 @@ class InstituicaoService
     {
         $query = Instituicao::where('ativa', true);
 
-        if (!empty($filtros['busca'])) {
+        if (! empty($filtros['busca'])) {
             $query->where(function ($q) use ($filtros) {
                 $q->where('nome', 'like', "%{$filtros['busca']}%")
                     ->orWhere('descricao', 'like', "%{$filtros['busca']}%")
@@ -32,35 +30,31 @@ class InstituicaoService
             });
         }
 
-        if (!empty($filtros['cidade'])) {
+        if (! empty($filtros['cidade'])) {
             $query->where('cidade', $filtros['cidade']);
         }
 
-        return $query->withCount(['doacoes as total_doadores' => function ($q) {
-            $q->where('situacao', 'confirmada');
-        }])->orderBy('valor_arrecadado', 'desc')->paginate(12);
+        return $query->withCount('campanhas')
+            ->orderBy('nome')
+            ->paginate(12)
+            ->withQueryString();
     }
 
     public function buscarPorSlug(string $slug): ?Instituicao
     {
-        return Instituicao::with(['doacoes' => function ($q) {
-            $q->where('situacao', 'confirmada')->orderBy('created_at', 'desc')->limit(50);
-        }, 'atualizacoes' => function ($q) {
-            $q->orderBy('created_at', 'desc');
-        }])->where('slug', $slug)->where('ativa', true)->first();
+        return Instituicao::with([
+            'campanhas' => fn ($q) => $q->ativas()->orderByDesc('valor_arrecadado'),
+        ])->where('slug', $slug)->where('ativa', true)->first();
     }
 
     public function listarTodas(): Collection
     {
-        return Instituicao::withCount(['doacoes as total_doadores' => function ($q) {
-            $q->where('situacao', 'confirmada');
-        }])->orderBy('nome')->get();
+        return Instituicao::withCount('campanhas')->orderBy('nome')->get();
     }
 
     public function criar(array $dados): Instituicao
     {
         $dados['slug'] = Str::slug($dados['nome']);
-        $dados['valor_arrecadado'] = 0;
 
         return Instituicao::create($dados);
     }
