@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
                     'instagram' => '@casacriancafeliz', 'chave_pix' => 'contato@casacriancafeliz.org.br',
                 ],
                 'campanhas' => [
-                    ['titulo' => 'Volta às aulas: kits escolares para 150 crianças', 'resumo' => 'Garanta material escolar completo para nossas crianças começarem o ano letivo.', 'meta' => 15000, 'destaque' => true, 'kw' => 'children,school', 'video_url' => 'https://www.youtube.com/watch?v=ScMzIvxBSi4'],
+                    ['titulo' => 'Volta às aulas: kits escolares para 150 crianças', 'resumo' => 'Garanta material escolar completo para nossas crianças começarem o ano letivo.', 'meta' => 15000, 'destaque' => true, 'kw' => 'children,school'],
                     ['titulo' => 'Reforma da brinquedoteca', 'resumo' => 'Vamos reformar o espaço de brincar e aprender das crianças.', 'meta' => 9000, 'kw' => 'children,playground'],
                 ],
             ],
