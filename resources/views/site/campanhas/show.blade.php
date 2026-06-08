@@ -16,9 +16,9 @@
                         class="w-full h-full" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
             </div>
         @elseif($campanha->imagemUrl())
-            <div class="aspect-[21/9] max-h-[50vh] w-full relative">
-                <img src="{{ $campanha->imagemUrl() }}" alt="{{ $campanha->titulo }}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-night-800/70 to-transparent"></div>
+            <div class="w-full flex justify-center py-6 px-4">
+                <img src="{{ $campanha->imagemUrl() }}" alt="{{ $campanha->titulo }}"
+                     class="mx-auto max-h-[55vh] w-auto max-w-4xl rounded-2xl object-cover shadow-warm-lg">
             </div>
         @else
             <div class="h-4"></div>
