@@ -31,9 +31,12 @@
             <div class="w-56 h-56 mx-auto mb-6 bg-white rounded-xl border border-cream-200 flex items-center justify-center p-3">
                 @if(!empty($pagamento['qr_code']))
                     @php
-                        $src = \Illuminate\Support\Str::startsWith($pagamento['qr_code'], 'data:')
+                        $qrCode = $pagamento['qr_code'];
+                        $src = \Illuminate\Support\Str::startsWith($qrCode, ['data:', 'http://', 'https://'])
                             ? $pagamento['qr_code']
-                            : 'data:image/png;base64,' . $pagamento['qr_code'];
+                            : (\Illuminate\Support\Str::startsWith($qrCode, '/')
+                                ? asset(ltrim($qrCode, '/'))
+                                : 'data:image/png;base64,' . $qrCode);
                     @endphp
                     <img src="{{ $src }}" alt="QR Code PIX" class="w-full h-full object-contain">
                 @else
@@ -44,7 +47,7 @@
             </div>
 
             {{-- Copy code --}}
-            @if(isset($pagamento['qr_code_text']))
+            @if(!empty($pagamento['qr_code_text']))
                 <div x-data="{ copiado: false }" class="mb-6">
                     <div class="flex items-center gap-2 bg-cream-50 rounded-xl p-2.5 border border-cream-200">
                         <input type="text" value="{{ $pagamento['qr_code_text'] }}" readonly

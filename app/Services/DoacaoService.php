@@ -67,6 +67,57 @@ class DoacaoService
         return $doacao->fresh();
     }
 
+    public function cancelar(Doacao $doacao): Doacao
+    {
+        DB::transaction(function () use ($doacao) {
+            $eraConfirmada = $doacao->situacao === SituacaoDoacao::CONFIRMADA;
+
+            $doacao->update(['situacao' => SituacaoDoacao::CANCELADA->value]);
+
+            if ($eraConfirmada) {
+                $doacao->campanha()->decrement('valor_arrecadado', $doacao->valor);
+            }
+
+            $doacao->transacoes()->latest('id')->limit(1)->update([
+                'status' => SituacaoDoacao::CANCELADA->value,
+            ]);
+        });
+
+        return $doacao->fresh();
+    }
+
+    /**
+     * Aplica o status recebido no webhook da ConfraPix à doação correspondente.
+     * Retorna a doação atualizada, ou null quando o payload não casa com nenhuma doação.
+     */
+    public function sincronizarPorCallback(array $payload): ?Doacao
+    {
+        $transactionId = (string) ($payload['id'] ?? '');
+
+        if ($transactionId === '') {
+            return null;
+        }
+
+        $doacao = Doacao::where('transaction_id', $transactionId)->first();
+
+        if (! $doacao) {
+            return null;
+        }
+
+        $status = $payload['status'] ?? '';
+        $pago = $status === 'succeeded' || ! empty($payload['confirmed']);
+
+        if ($pago && $doacao->situacao === SituacaoDoacao::PENDENTE) {
+            return $this->confirmar($doacao, $transactionId);
+        }
+
+        if ($status === 'canceled' && $doacao->situacao !== SituacaoDoacao::CANCELADA) {
+            return $this->cancelar($doacao);
+        }
+
+        return $doacao;
+    }
+
     public function ultimasDoacoes(int $limite = 10): Collection
     {
         return Doacao::with('campanha.instituicao')

@@ -36,7 +36,7 @@ return [
     ],
 
     'confrapix' => [
-        'url' => env('CONFRAPIX_URL', 'https://api.confrapag.com.br'),
+        'url' => env('CONFRAPIX_URL', 'https://api.confrapix.com.br/api'),
         'token' => env('CONFRAPIX_TOKEN'),
         'webhook_secret' => env('CONFRAPIX_WEBHOOK_SECRET'),
     ],
