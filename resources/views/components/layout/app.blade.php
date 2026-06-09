@@ -21,6 +21,20 @@
     <x-layout.navbar />
 
     <main class="flex-1 relative z-10">
+        @if(session('sucesso') || session('erro') || session('aviso'))
+            <div class="max-w-xl mx-auto px-6 pt-6">
+                @if(session('sucesso'))
+                    <x-ui.alerta tipo="sucesso">{{ session('sucesso') }}</x-ui.alerta>
+                @endif
+                @if(session('erro'))
+                    <x-ui.alerta tipo="erro">{{ session('erro') }}</x-ui.alerta>
+                @endif
+                @if(session('aviso'))
+                    <x-ui.alerta tipo="aviso">{{ session('aviso') }}</x-ui.alerta>
+                @endif
+            </div>
+        @endif
+
         {{ $slot }}
     </main>
 

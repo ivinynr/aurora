@@ -68,6 +68,15 @@
             </div>
         </x-ui.card>
 
+        @if($doacao->situacao !== \App\Enums\SituacaoDoacao::CANCELADA)
+            <form method="POST" action="{{ route('admin.doacoes.cancelar', $doacao) }}" class="mt-6"
+                  onsubmit="return confirm('Tem certeza que deseja cancelar esta doação? Se ela já estiver paga, o estorno será solicitado à ConfraPix.');">
+                @csrf
+                @method('PATCH')
+                <x-ui.botao tipo="submit" variante="perigo">Cancelar doação</x-ui.botao>
+            </form>
+        @endif
+
         @if($doacao->transacoes->isNotEmpty())
             <x-ui.card :hover="false" padding="lg" class="mt-6">
                 <h2 class="font-serif text-lg font-bold text-bark-800 mb-4">Transações de pagamento</h2>

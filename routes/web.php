@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoacaoController as AdminDoacaoController;
 use App\Http\Controllers\Admin\InstituicaoController as AdminInstituicaoController;
 use App\Http\Controllers\Site\CampanhaController;
+use App\Http\Controllers\Site\ConfraPixWebhookController;
 use App\Http\Controllers\Site\DoacaoController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\InstituicaoController;
@@ -27,6 +28,7 @@ Route::prefix('instituicoes')->name('instituicoes.')->group(function () {
 Route::prefix('doar/{slug}')->name('doacao.')->group(function () {
     Route::get('/', [DoacaoController::class, 'create'])->name('create');
     Route::post('/', [DoacaoController::class, 'store'])->middleware('throttle:6,1')->name('store');
+    Route::get('/{doacaoId}/pagamento', [DoacaoController::class, 'pagamento'])->name('pagamento');
     Route::get('/{doacaoId}/confirmar', [DoacaoController::class, 'confirmar'])->name('confirmar');
     Route::get('/{doacaoId}/sucesso', [DoacaoController::class, 'sucesso'])->name('sucesso');
 });
@@ -43,6 +45,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', VerificarAdmin::clas
 
     Route::get('doacoes', [AdminDoacaoController::class, 'index'])->name('doacoes.index');
     Route::get('doacoes/{doacao}', [AdminDoacaoController::class, 'show'])->name('doacoes.show');
+    Route::patch('doacoes/{doacao}/cancelar', [AdminDoacaoController::class, 'cancelar'])->name('doacoes.cancelar');
 });
+
+Route::post('webhooks/confrapix', ConfraPixWebhookController::class)->name('webhooks.confrapix');
 
 require __DIR__.'/auth.php';
