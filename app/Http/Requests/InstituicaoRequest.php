@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\SegmentoInstituicao;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class InstituicaoRequest extends FormRequest
 {
@@ -22,11 +24,16 @@ class InstituicaoRequest extends FormRequest
             'instagram' => ['nullable', 'string', 'max:100'],
             'website' => ['nullable', 'url', 'max:255'],
             'chave_pix' => ['nullable', 'string', 'max:255'],
-            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'imagem' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'endereco' => ['nullable', 'string', 'max:255'],
             'cidade' => ['nullable', 'string', 'max:100'],
             'estado' => ['nullable', 'string', 'max:2'],
             'ativa' => ['boolean'],
+            'segmento' => ['nullable', 'string', Rule::in(SegmentoInstituicao::values())],
+            'fotos' => ['nullable', 'array', 'max:10'],
+            'fotos.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'selos' => ['nullable', 'array', 'max:20'],
+            'selos.*' => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -41,10 +48,15 @@ class InstituicaoRequest extends FormRequest
             'instagram' => 'Instagram',
             'website' => 'Website',
             'chave_pix' => 'Chave PIX',
-            'logo' => 'Logo',
+            'imagem' => 'Imagem',
             'endereco' => 'Endereço',
             'cidade' => 'Cidade',
             'estado' => 'Estado',
+            'segmento' => 'Segmento',
+            'fotos' => 'Fotos',
+            'fotos.*' => 'Foto',
+            'selos' => 'Selos',
+            'selos.*' => 'Selo',
         ];
     }
 }

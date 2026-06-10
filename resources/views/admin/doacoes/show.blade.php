@@ -85,7 +85,7 @@
                         <div class="p-4 rounded-xl bg-cream-100 text-sm">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-mono text-xs text-bark-500">{{ $transacao->transaction_id ?? '—' }}</span>
-                                <x-ui.badge :cor="$transacao->status === 'confirmada' ? 'sage' : 'honey'">{{ ucfirst($transacao->status) }}</x-ui.badge>
+                                <x-ui.badge :cor="$transacao->situacao === 'confirmada' ? 'sage' : 'honey'">{{ ucfirst($transacao->situacao) }}</x-ui.badge>
                             </div>
                             <div class="flex items-center justify-between text-xs text-bark-400">
                                 <span>Gateway: {{ $transacao->gateway }}</span>

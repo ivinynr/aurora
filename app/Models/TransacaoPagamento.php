@@ -17,7 +17,7 @@ class TransacaoPagamento extends Model
         'gateway',
         'transaction_id',
         'valor',
-        'status',
+        'situacao',
         'qr_code',
         'qr_code_text',
         'expira_em',

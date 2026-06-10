@@ -187,6 +187,9 @@
                                 Doou <span class="font-semibold text-sage-500">R$ {{ number_format($doacao->valor, 2, ',', '.') }}</span>
                                 para <span class="font-medium text-night-800">{{ $doacao->campanha->titulo }}</span>.
                             </p>
+                            @if($doacao->mensagem)
+                                <p class="text-xs text-bark-400 italic mb-3">"{{ $doacao->mensagem }}"</p>
+                            @endif
                             <div class="flex items-center gap-2.5">
                                 <div class="w-8 h-8 rounded-full bg-terra-50 text-terra-500 flex items-center justify-center text-xs font-semibold">
                                     {{ mb_strtoupper(mb_substr($doacao->nomeExibicao(), 0, 1)) }}
@@ -203,8 +206,61 @@
         </section>
     @endif
 
+    {{-- Instituições em destaque --}}
+    @if($instituicoes->isNotEmpty())
+        <section class="bg-white border-t border-cream-200 py-14 lg:py-20">
+            <div class="max-w-6xl mx-auto px-8">
+                <div class="flex items-end justify-between mb-8">
+                    <div>
+                        <p class="text-[11px] text-terra-500 font-semibold uppercase tracking-wider mb-1">Quem faz acontecer</p>
+                        <h2 class="font-serif text-2xl lg:text-3xl font-bold text-night-800">Instituições que transformam vidas</h2>
+                    </div>
+                    <a href="{{ route('instituicoes.index') }}" class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-terra-500 hover:text-terra-600">
+                        Ver todas
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($instituicoes as $inst)
+                        <a href="{{ route('instituicoes.show', $inst->slug) }}"
+                           class="group bg-white rounded-xl shadow-warm border border-cream-200 overflow-hidden card-lift block">
+                            <div class="aspect-[16/10] bg-cream-200 relative overflow-hidden">
+                                @if($inst->logoUrl())
+                                    <img src="{{ $inst->logoUrl() }}" alt="{{ $inst->nome }}"
+                                         class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700">
+                                @else
+                                    <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-cream-200 to-cream-300">
+                                        <span class="font-serif text-4xl font-bold text-bark-200">{{ mb_substr($inst->nome, 0, 1) }}</span>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="p-5">
+                                @if($inst->cidade)
+                                    <p class="text-xs text-bark-300 mb-1">{{ $inst->cidade }}, {{ $inst->estado }}</p>
+                                @endif
+                                <h3 class="font-serif text-lg font-bold text-bark-800 mb-2 group-hover:text-terra-500 transition-colors">
+                                    {{ $inst->nome }}
+                                </h3>
+                                @if($inst->missao)
+                                    <p class="text-sm text-bark-400 line-clamp-2 mb-4">{{ $inst->missao }}</p>
+                                @else
+                                    <p class="text-sm text-bark-400 line-clamp-2 mb-4">{{ Str::limit($inst->descricao, 100) }}</p>
+                                @endif
+                                <span class="inline-flex items-center gap-1 text-sm font-medium text-terra-500">
+                                    Conheça
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                                </span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- CTA final --}}
-    <section class="bg-white border-t border-cream-200 py-16">
+    <section class="bg-cream-100 border-t border-cream-200 py-16">
         <div class="max-w-3xl mx-auto px-8 text-center">
             <h2 class="font-serif text-2xl lg:text-3xl font-bold text-night-800 mb-3">Sua instituição também pode arrecadar aqui</h2>
             <p class="text-sm text-bark-400 mb-6 max-w-xl mx-auto">

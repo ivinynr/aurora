@@ -78,4 +78,23 @@ class InstituicaoService
             ->orderBy('cidade')
             ->pluck('cidade');
     }
+
+    public function destaquesPagina(int $limite = 6): Collection
+    {
+        return Instituicao::where('ativa', true)
+            ->withCount('campanhas')
+            ->orderByDesc('campanhas_count')
+            ->limit($limite)
+            ->get();
+    }
+
+    public function listarPorSegmento(string $segmento, int $excluirId, int $limite = 4): Collection
+    {
+        return Instituicao::where('ativa', true)
+            ->where('segmento', $segmento)
+            ->where('id', '!=', $excluirId)
+            ->withCount('campanhas')
+            ->limit($limite)
+            ->get();
+    }
 }

@@ -33,7 +33,7 @@ class DoacaoService
             'gateway' => $pagamento['gateway'] ?? 'confrapix',
             'transaction_id' => $pagamento['transaction_id'] ?? null,
             'valor' => $doacao->valor,
-            'status' => SituacaoDoacao::PENDENTE->value,
+            'situacao' => SituacaoDoacao::PENDENTE->value,
             'qr_code' => $pagamento['qr_code'] ?? null,
             'qr_code_text' => $pagamento['qr_code_text'] ?? null,
             'expira_em' => $pagamento['expiracao'] ?? null,
@@ -58,7 +58,7 @@ class DoacaoService
             $doacao->campanha()->increment('valor_arrecadado', $doacao->valor);
 
             $doacao->transacoes()->latest('id')->limit(1)->update([
-                'status' => SituacaoDoacao::CONFIRMADA->value,
+                'situacao' => SituacaoDoacao::CONFIRMADA->value,
                 'transaction_id' => $transactionId,
                 'pago_em' => now(),
             ]);
@@ -79,7 +79,7 @@ class DoacaoService
             }
 
             $doacao->transacoes()->latest('id')->limit(1)->update([
-                'status' => SituacaoDoacao::CANCELADA->value,
+                'situacao' => SituacaoDoacao::CANCELADA->value,
             ]);
         });
 

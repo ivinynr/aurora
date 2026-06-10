@@ -27,8 +27,16 @@ class InstituicaoController extends Controller
 
         abort_if(!$instituicao, 404, 'Instituição não encontrada.');
 
+        $relacionadas = $instituicao->segmento
+            ? $this->instituicaoService->listarPorSegmento(
+                $instituicao->segmento->value,
+                $instituicao->id,
+            )
+            : collect();
+
         return view('site.instituicoes.show', [
             'instituicao' => $instituicao,
+            'relacionadas' => $relacionadas,
         ]);
     }
 }
