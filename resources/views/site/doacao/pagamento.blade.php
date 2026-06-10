@@ -2,6 +2,31 @@
     <section class="max-w-xl mx-auto px-6 pt-10 pb-24">
         <x-doacao.stepper :etapaAtual="2" />
 
+        <div
+            x-data="{
+                verificando: false,
+                intervalo: null,
+                async verificarPagamento() {
+                    if (this.verificando) return;
+                    this.verificando = true;
+
+                    try {
+                        const resposta = await fetch('{{ route('doacao.status', [$campanha->slug, $doacao->id]) }}');
+                        const dados = await resposta.json();
+
+                        if (dados.pago) {
+                            clearInterval(this.intervalo);
+                            window.location.href = '{{ route('doacao.sucesso', [$campanha->slug, $doacao->id]) }}';
+                        }
+                    } catch (e) {
+                        // mantém o polling mesmo se uma tentativa falhar
+                    } finally {
+                        this.verificando = false;
+                    }
+                },
+            }"
+            x-init="intervalo = setInterval(() => verificarPagamento(), 5000)"
+        >
         <x-ui.card :hover="false" padding="lg">
             <div class="flex items-start justify-between mb-6">
                 <div>
@@ -77,5 +102,6 @@
                 </a>
             </div>
         </x-ui.card>
+        </div>
     </section>
 </x-layout.app>

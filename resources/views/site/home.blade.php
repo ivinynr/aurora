@@ -49,27 +49,10 @@
                 </div>
             </div>
 
-            {{-- Imagens das campanhas em destaque --}}
-            <div class="hidden lg:grid grid-cols-2 gap-3">
-                @php $comImagem = $destaques->filter(fn($c) => $c->imagemUrl())->take(3); @endphp
-                @if($comImagem->count() >= 1)
-                    <div class="row-span-2 relative rounded-2xl overflow-hidden shadow-warm-lg">
-                        <img src="{{ $comImagem->first()->imagemUrl() }}" alt="{{ $comImagem->first()->titulo }}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-night-800/70 to-transparent"></div>
-                        <span class="absolute bottom-3 left-3 right-3 text-white text-sm font-semibold line-clamp-2">{{ $comImagem->first()->titulo }}</span>
-                    </div>
-                    @foreach($comImagem->skip(1)->take(2) as $c)
-                        <div class="relative rounded-2xl overflow-hidden shadow-warm-lg h-40">
-                            <img src="{{ $c->imagemUrl() }}" alt="{{ $c->titulo }}" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-night-800/70 to-transparent"></div>
-                            <span class="absolute bottom-2 left-3 right-3 text-white text-xs font-medium line-clamp-1">{{ $c->titulo }}</span>
-                        </div>
-                    @endforeach
-                @else
-                    <div class="col-span-2 rounded-2xl bg-white/5 border border-white/10 h-72 flex items-center justify-center">
-                        <x-layout.logo tamanho="xl" cor="claro" />
-                    </div>
-                @endif
+            {{-- Ilustração de doação --}}
+            <div class="hidden lg:flex items-center justify-center">
+                <img src="{{ asset('images/hero-doacao.png') }}" alt="Pessoas doando uma caixa de itens"
+                     class="w-full max-w-md">
             </div>
         </div>
     </section>

@@ -29,6 +29,7 @@ Route::prefix('doar/{slug}')->name('doacao.')->group(function () {
     Route::get('/', [DoacaoController::class, 'create'])->name('create');
     Route::post('/', [DoacaoController::class, 'store'])->middleware('throttle:6,1')->name('store');
     Route::get('/{doacaoId}/pagamento', [DoacaoController::class, 'pagamento'])->name('pagamento');
+    Route::get('/{doacaoId}/status', [DoacaoController::class, 'status'])->middleware('throttle:20,1')->name('status');
     Route::get('/{doacaoId}/confirmar', [DoacaoController::class, 'confirmar'])->name('confirmar');
     Route::get('/{doacaoId}/sucesso', [DoacaoController::class, 'sucesso'])->name('sucesso');
 });

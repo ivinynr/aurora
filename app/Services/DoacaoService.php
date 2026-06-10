@@ -6,12 +6,17 @@ use App\Enums\SituacaoDoacao;
 use App\Models\Campanha;
 use App\Models\Doacao;
 use App\Models\TransacaoPagamento;
+use App\Services\Pagamento\PagamentoServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class DoacaoService
 {
+    public function __construct(
+        private PagamentoServiceInterface $pagamentoService,
+    ) {}
+
     public function registrar(Campanha $campanha, array $dados): Doacao
     {
         return Doacao::create([
@@ -65,6 +70,37 @@ class DoacaoService
         });
 
         return $doacao->fresh();
+    }
+
+    /**
+     * Consulta a situação do pagamento na ConfraPix e confirma a doação automaticamente
+     * caso o pagamento já tenha sido identificado. Usado tanto pelo botão "Já paguei"
+     * quanto pelo polling automático da tela de pagamento.
+     */
+    public function verificarPagamento(Doacao $doacao): array
+    {
+        if ($doacao->situacao !== SituacaoDoacao::PENDENTE) {
+            return [
+                'pago' => $doacao->situacao === SituacaoDoacao::CONFIRMADA,
+                'situacao' => $doacao->situacao->value,
+            ];
+        }
+
+        $resultado = $this->pagamentoService->consultarPagamento(
+            $doacao->transaction_id ?? "DOA-{$doacao->id}",
+        );
+
+        if (! empty($resultado['erro'])) {
+            return $resultado;
+        }
+
+        if (empty($resultado['pago'])) {
+            return ['pago' => false, 'situacao' => $doacao->situacao->value];
+        }
+
+        $doacao = $this->confirmar($doacao, $resultado['transaction_id'] ?? "CONF-{$doacao->id}");
+
+        return ['pago' => true, 'situacao' => $doacao->situacao->value];
     }
 
     public function cancelar(Doacao $doacao): Doacao

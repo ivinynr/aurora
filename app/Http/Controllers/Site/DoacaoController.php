@@ -9,6 +9,7 @@ use App\Http\Requests\DoacaoRequest;
 use App\Models\Campanha;
 use App\Services\DoacaoService;
 use App\Services\Pagamento\PagamentoServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -90,9 +91,7 @@ class DoacaoController extends Controller
             return redirect()->route('doacao.sucesso', [$slug, $doacaoId]);
         }
 
-        $resultado = $this->pagamentoService->consultarPagamento(
-            $doacao->transaction_id ?? "DOA-{$doacao->id}",
-        );
+        $resultado = $this->doacaoService->verificarPagamento($doacao);
 
         if (! empty($resultado['erro'])) {
             return redirect()
@@ -106,12 +105,24 @@ class DoacaoController extends Controller
                 ->with('aviso', 'Ainda não identificamos seu pagamento. Se você acabou de pagar via Pix, aguarde alguns instantes e clique novamente em "Já paguei".');
         }
 
-        $this->doacaoService->confirmar(
-            $doacao,
-            $resultado['transaction_id'] ?? "CONF-{$doacao->id}",
-        );
-
         return redirect()->route('doacao.sucesso', [$slug, $doacaoId]);
+    }
+
+    /**
+     * Endpoint consultado via polling pela tela de pagamento, para detectar
+     * automaticamente quando o Pix for confirmado, sem precisar do botão "Já paguei".
+     */
+    public function status(string $slug, int $doacaoId): JsonResponse
+    {
+        $campanha = Campanha::where('slug', $slug)->firstOrFail();
+        $doacao = $campanha->doacoes()->findOrFail($doacaoId);
+
+        $resultado = $this->doacaoService->verificarPagamento($doacao);
+
+        return response()->json([
+            'pago' => ! empty($resultado['pago']),
+            'situacao' => $resultado['situacao'] ?? $doacao->situacao->value,
+        ]);
     }
 
     public function sucesso(string $slug, int $doacaoId): View
