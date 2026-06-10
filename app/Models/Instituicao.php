@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Enums\SegmentoInstituicao;
 
 class Instituicao extends Model
 {
@@ -23,7 +24,7 @@ class Instituicao extends Model
         'slug',
         'descricao',
         'missao',
-        'logo',
+        'imagem',
         'telefone',
         'email',
         'instagram',
@@ -33,12 +34,18 @@ class Instituicao extends Model
         'cidade',
         'estado',
         'ativa',
+        'segmento',
+        'fotos',
+        'selos',
     ];
 
     protected function casts(): array
     {
         return [
             'ativa' => 'boolean',
+            'segmento' => SegmentoInstituicao::class,
+            'fotos' => 'array',
+            'selos' => 'array',
         ];
     }
 
@@ -50,6 +57,11 @@ class Instituicao extends Model
     public function campanhas(): HasMany
     {
         return $this->hasMany(Campanha::class, 'instituicao_id');
+    }
+
+    public function atualizacoes(): HasMany
+    {
+        return $this->hasMany(AtualizacaoInstituicao::class, 'instituicao_id');
     }
 
     public function doacoes(): HasManyThrough
@@ -77,12 +89,26 @@ class Instituicao extends Model
 
     public function logoUrl(): ?string
     {
-        if (! $this->logo) {
+        if (! $this->imagem) {
             return null;
         }
 
-        return Str::startsWith($this->logo, ['http://', 'https://'])
-            ? $this->logo
-            : Storage::url($this->logo);
+        return Str::startsWith($this->imagem, ['http://', 'https://'])
+            ? $this->imagem
+            : Storage::url($this->imagem);
+    }
+
+    public function fotosUrls(): array
+    {
+        if (! $this->fotos) {
+            return [];
+        }
+
+        return array_map(
+            fn (string $foto) => Str::startsWith($foto, ['http://', 'https://'])
+                ? $foto
+                : Storage::url($foto),
+            $this->fotos,
+        );
     }
 }

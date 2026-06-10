@@ -5,7 +5,7 @@
 
 @theme {
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
+    --font-serif: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
 
     /* Paleta "Azul Confiança" — nomes de token mantidos por compatibilidade.
        cream = cinza-gelo (fundos) | bark = slate (textos)

@@ -32,8 +32,23 @@ class InstituicaoController extends Controller
         $dados = $request->validated();
         $dados['user_id'] = auth()->id();
 
-        if ($request->hasFile('logo')) {
-            $dados['logo'] = $request->file('logo')->store('instituicoes', 'public');
+        if ($request->hasFile('imagem')) {
+            $dados['imagem'] = $request->file('imagem')->store('instituicoes', 'public');
+        }
+
+        if ($request->hasFile('fotos')) {
+            $dados['fotos'] = array_map(
+                fn ($foto) => $foto->store('instituicoes/fotos', 'public'),
+                $request->file('fotos'),
+            );
+        }
+
+        if ($request->has('selos')) {
+            $dados['selos'] = collect($request->input('selos', []))
+                ->filter(fn ($s) => ! empty(trim($s)))
+                ->map(fn ($s) => ['nome' => trim($s)])
+                ->values()
+                ->all();
         }
 
         $this->instituicaoService->criar($dados);
@@ -53,8 +68,24 @@ class InstituicaoController extends Controller
     {
         $dados = $request->validated();
 
-        if ($request->hasFile('logo')) {
-            $dados['logo'] = $request->file('logo')->store('instituicoes', 'public');
+        if ($request->hasFile('imagem')) {
+            $dados['imagem'] = $request->file('imagem')->store('instituicoes', 'public');
+        }
+
+        if ($request->hasFile('fotos')) {
+            $novasFotos = array_map(
+                fn ($foto) => $foto->store('instituicoes/fotos', 'public'),
+                $request->file('fotos'),
+            );
+            $dados['fotos'] = array_merge($instituicao->fotos ?? [], $novasFotos);
+        }
+
+        if ($request->has('selos')) {
+            $dados['selos'] = collect($request->input('selos', []))
+                ->filter(fn ($s) => ! empty(trim($s)))
+                ->map(fn ($s) => ['nome' => trim($s)])
+                ->values()
+                ->all();
         }
 
         $this->instituicaoService->atualizar($instituicao, $dados);
