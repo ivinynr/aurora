@@ -14,6 +14,7 @@ class CampanhaService
     public function destaques(int $limite = 3): Collection
     {
         return Campanha::with('instituicao')
+            ->withCount(['doacoes as doacoes_confirmadas_count' => fn ($q) => $q->where('situacao', 'confirmada')])
             ->ativas()
             ->emDestaque()
             ->orderByDesc('valor_arrecadado')
