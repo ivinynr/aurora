@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\DashboardService;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardController extends Controller
 {
@@ -12,11 +13,10 @@ class DashboardController extends Controller
         private DashboardService $dashboardService,
     ) {}
 
-    public function __invoke(): View
+    public function __invoke(): Response
     {
-        return view('admin.dashboard', [
+        return Inertia::render('Admin/Dashboard', [
             'resumo' => $this->dashboardService->resumo(),
-            'doacoesPorDia' => $this->dashboardService->doacoesPorDia(),
             'doacoesRecentes' => $this->dashboardService->doacoesRecentes(),
             'campanhasMaisArrecadadas' => $this->dashboardService->campanhasMaisArrecadadas(),
         ]);

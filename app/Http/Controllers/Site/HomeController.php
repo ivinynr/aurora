@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Services\CampanhaService;
 use App\Services\DoacaoService;
 use App\Services\InstituicaoService;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
@@ -16,9 +17,9 @@ class HomeController extends Controller
         private InstituicaoService $instituicaoService,
     ) {}
 
-    public function __invoke(): View
+    public function __invoke(): Response
     {
-        return view('site.home', [
+        return Inertia::render('Site/Home', [
             'destaques' => $this->campanhaService->destaques(3),
             'ultimasDoacoes' => $this->doacaoService->ultimasDoacoes(8),
             'estatisticas' => $this->doacaoService->estatisticas(),

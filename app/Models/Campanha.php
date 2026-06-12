@@ -34,6 +34,15 @@ class Campanha extends Model
         'data_fim',
     ];
 
+    protected $appends = [
+        'percentual_arrecadado',
+        'esta_encerrada',
+        'aceita_doacoes',
+        'imagem_url',
+        'situacao_label',
+        'situacao_badge_cor',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -107,5 +116,39 @@ class Campanha extends Model
         return Str::startsWith($this->imagem, ['http://', 'https://'])
             ? $this->imagem
             : Storage::url($this->imagem);
+    }
+
+    public function getPercentualArrecadadoAttribute(): float
+    {
+        return $this->percentualArrecadado();
+    }
+
+    public function getEstaEncerradaAttribute(): bool
+    {
+        return $this->estaEncerrada();
+    }
+
+    public function getAceitaDoacoesAttribute(): bool
+    {
+        return $this->aceitaDoacoes();
+    }
+
+    public function getImagemUrlAttribute(): ?string
+    {
+        return $this->imagemUrl();
+    }
+
+    public function getSituacaoLabelAttribute(): string
+    {
+        return $this->situacao->label();
+    }
+
+    public function getSituacaoBadgeCorAttribute(): string
+    {
+        return match ($this->situacao->cor()) {
+            'sage' => 'sage',
+            'terra' => 'rose',
+            default => 'slate',
+        };
     }
 }

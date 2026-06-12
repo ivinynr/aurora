@@ -26,6 +26,12 @@ class Doacao extends Model
         'mensagem',
     ];
 
+    protected $appends = [
+        'nome_exibicao',
+        'situacao_label',
+        'situacao_badge_cor',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -53,5 +59,24 @@ class Doacao extends Model
     public function nomeExibicao(): string
     {
         return $this->anonimo ? 'Apoiador Anônimo' : $this->nome_doador;
+    }
+
+    public function getNomeExibicaoAttribute(): string
+    {
+        return $this->nomeExibicao();
+    }
+
+    public function getSituacaoLabelAttribute(): string
+    {
+        return $this->situacao->label();
+    }
+
+    public function getSituacaoBadgeCorAttribute(): string
+    {
+        return match ($this->situacao) {
+            SituacaoDoacao::CONFIRMADA => 'sage',
+            SituacaoDoacao::PENDENTE => 'honey',
+            default => 'bark',
+        };
     }
 }

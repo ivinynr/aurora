@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+
+    <title inertia>{{ config('app.name', 'Aurora') }}</title>
+
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700|plus-jakarta-sans:400,500,600,700|playfair-display:400,500,600,700" rel="stylesheet" />
+
+    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @inertiaHead
+</head>
+<body class="min-h-screen bg-cream-100 text-bark-800 font-sans antialiased">
+    @inertia
+</body>
+</html>

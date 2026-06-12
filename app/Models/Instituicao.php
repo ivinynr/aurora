@@ -39,6 +39,13 @@ class Instituicao extends Model
         'selos',
     ];
 
+    protected $appends = [
+        'logo_url',
+        'fotos_urls',
+        'segmento_label',
+        'segmento_cor',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -110,5 +117,25 @@ class Instituicao extends Model
                 : Storage::url($foto),
             $this->fotos,
         );
+    }
+
+    public function getLogoUrlAttribute(): ?string
+    {
+        return $this->logoUrl();
+    }
+
+    public function getFotosUrlsAttribute(): array
+    {
+        return $this->fotosUrls();
+    }
+
+    public function getSegmentoLabelAttribute(): ?string
+    {
+        return $this->segmento?->label();
+    }
+
+    public function getSegmentoCorAttribute(): ?string
+    {
+        return $this->segmento?->cor();
     }
 }

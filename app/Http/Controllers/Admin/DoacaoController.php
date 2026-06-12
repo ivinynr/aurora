@@ -10,7 +10,8 @@ use App\Services\DoacaoService;
 use App\Services\Pagamento\PagamentoServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DoacaoController extends Controller
 {
@@ -20,19 +21,21 @@ class DoacaoController extends Controller
         private PagamentoServiceInterface $pagamentoService,
     ) {}
 
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
-        return view('admin.doacoes.index', [
+        return Inertia::render('Admin/Doacoes/Index', [
             'doacoes' => $this->doacaoService->listarPaginado($request->only(['campanha_id', 'situacao'])),
             'campanhas' => $this->campanhaService->listarTodas(),
+            'situacoes' => SituacaoDoacao::opcoes(),
+            'filtros' => $request->only(['campanha_id', 'situacao']),
         ]);
     }
 
-    public function show(Doacao $doacao): View
+    public function show(Doacao $doacao): Response
     {
         $doacao->load('campanha.instituicao', 'transacoes');
 
-        return view('admin.doacoes.show', [
+        return Inertia::render('Admin/Doacoes/Show', [
             'doacao' => $doacao,
         ]);
     }

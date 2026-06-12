@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SituacaoCampanha;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CampanhaRequest;
 use App\Models\Campanha;
 use App\Services\CampanhaService;
 use App\Services\InstituicaoService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CampanhaController extends Controller
 {
@@ -17,17 +19,18 @@ class CampanhaController extends Controller
         private InstituicaoService $instituicaoService,
     ) {}
 
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.campanhas.index', [
+        return Inertia::render('Admin/Campanhas/Index', [
             'campanhas' => $this->campanhaService->listarTodas(),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.campanhas.form', [
+        return Inertia::render('Admin/Campanhas/Form', [
             'instituicoes' => $this->instituicaoService->listarTodas(),
+            'situacoes' => SituacaoCampanha::opcoes(),
         ]);
     }
 
@@ -45,11 +48,12 @@ class CampanhaController extends Controller
             ->with('sucesso', 'Campanha criada com sucesso!');
     }
 
-    public function edit(Campanha $campanha): View
+    public function edit(Campanha $campanha): Response
     {
-        return view('admin.campanhas.form', [
-            'campanha' => $campanha,
+        return Inertia::render('Admin/Campanhas/Form', [
+            'campanha' => $campanha->load('atualizacoes'),
             'instituicoes' => $this->instituicaoService->listarTodas(),
+            'situacoes' => SituacaoCampanha::opcoes(),
         ]);
     }
 

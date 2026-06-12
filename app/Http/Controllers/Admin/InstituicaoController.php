@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SegmentoInstituicao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InstituicaoRequest;
 use App\Models\Instituicao;
 use App\Services\InstituicaoService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class InstituicaoController extends Controller
 {
@@ -15,16 +17,18 @@ class InstituicaoController extends Controller
         private InstituicaoService $instituicaoService,
     ) {}
 
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.instituicoes.index', [
+        return Inertia::render('Admin/Instituicoes/Index', [
             'instituicoes' => $this->instituicaoService->listarTodas(),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.instituicoes.form');
+        return Inertia::render('Admin/Instituicoes/Form', [
+            'segmentos' => SegmentoInstituicao::opcoes(),
+        ]);
     }
 
     public function store(InstituicaoRequest $request): RedirectResponse
@@ -57,10 +61,11 @@ class InstituicaoController extends Controller
             ->with('sucesso', 'Instituição cadastrada com sucesso!');
     }
 
-    public function edit(Instituicao $instituicao): View
+    public function edit(Instituicao $instituicao): Response
     {
-        return view('admin.instituicoes.form', [
+        return Inertia::render('Admin/Instituicoes/Form', [
             'instituicao' => $instituicao,
+            'segmentos' => SegmentoInstituicao::opcoes(),
         ]);
     }
 
