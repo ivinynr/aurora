@@ -1,5 +1,8 @@
 import { Head, useForm, Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { Mail, Lock, LogIn } from 'lucide-react';
 import Logo from '../../Components/Layout/Logo';
+import { fadeUp, hoverTap } from '../../Utils/animacoes';
 
 export default function Login() {
     const { data, setData, post, processing, errors } = useForm({
@@ -17,7 +20,7 @@ export default function Login() {
         <div className="min-h-screen bg-cream-100 flex items-center justify-center p-6 font-sans antialiased">
             <Head title="Entrar" />
 
-            <div className="w-full max-w-sm">
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} className="w-full max-w-sm">
                 <div className="text-center mb-8">
                     <Link href={route('home')} className="inline-block"><Logo tamanho="lg" /></Link>
                     <p className="text-sm text-bark-400 mt-2">Acesso administrativo</p>
@@ -33,28 +36,34 @@ export default function Login() {
                     <form onSubmit={submeter} className="space-y-4">
                         <div className="space-y-1.5">
                             <label htmlFor="email" className="block text-sm font-medium text-bark-700">E-mail</label>
-                            <input
-                                type="email"
-                                id="email"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
-                                required
-                                autoFocus
-                                placeholder="admin@aurora.org.br"
-                                className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark-800 placeholder:text-bark-300 focus:border-terra-300 focus:ring-2 focus:ring-terra-100 transition-colors"
-                            />
+                            <div className="relative">
+                                <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-bark-300" strokeWidth={1.7} />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={data.email}
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    required
+                                    autoFocus
+                                    placeholder="admin@aurora.org.br"
+                                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark-800 placeholder:text-bark-300 focus:border-terra-300 focus:ring-2 focus:ring-terra-100 transition-colors"
+                                />
+                            </div>
                         </div>
                         <div className="space-y-1.5">
                             <label htmlFor="password" className="block text-sm font-medium text-bark-700">Senha</label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={data.password}
-                                onChange={(e) => setData('password', e.target.value)}
-                                required
-                                placeholder="••••••••"
-                                className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark-800 placeholder:text-bark-300 focus:border-terra-300 focus:ring-2 focus:ring-terra-100 transition-colors"
-                            />
+                            <div className="relative">
+                                <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-bark-300" strokeWidth={1.7} />
+                                <input
+                                    type="password"
+                                    id="password"
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}
+                                    required
+                                    placeholder="••••••••"
+                                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark-800 placeholder:text-bark-300 focus:border-terra-300 focus:ring-2 focus:ring-terra-100 transition-colors"
+                                />
+                            </div>
                         </div>
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -65,18 +74,20 @@ export default function Login() {
                             />
                             <span className="text-sm text-bark-500">Lembrar de mim</span>
                         </label>
-                        <button
+                        <motion.button
+                            {...hoverTap}
                             type="submit"
                             disabled={processing}
-                            className="w-full py-2.5 text-sm font-semibold text-white bg-terra-500 hover:bg-terra-600 rounded-xl transition-colors disabled:opacity-50"
+                            className="w-full inline-flex items-center justify-center gap-2 py-2.5 text-sm font-semibold text-white bg-terra-500 hover:bg-terra-600 rounded-xl transition-colors disabled:opacity-50"
                         >
+                            <LogIn className="w-4 h-4" strokeWidth={2} />
                             Entrar
-                        </button>
+                        </motion.button>
                     </form>
                 </div>
 
                 <p className="text-center text-xs text-bark-300 mt-6">Aurora &mdash; Hackathon Confrapag + UNIESP</p>
-            </div>
+            </motion.div>
         </div>
     );
 }

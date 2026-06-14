@@ -3,7 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { route } from 'ziggy-js';
 import { Ziggy } from './ziggy';
 
-window.route = (name, params, absolute, config) => route(name, params, absolute, config ?? Ziggy);
+// absolute = false por padrão: gera URLs relativas (/instituicoes), evitando
+// que o host/porta fixos do Ziggy apontem para outro servidor.
+window.route = (name, params, absolute = false, config) => route(name, params, absolute, config ?? Ziggy);
 
 createInertiaApp({
     title: (titulo) => (titulo ? `${titulo} — Aurora` : 'Aurora'),

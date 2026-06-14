@@ -1,7 +1,12 @@
 import { Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
 import AppLayout from '../../../Layouts/AppLayout';
 import Card from '../../../Components/UI/Card';
 import Stepper from '../../../Components/Doacao/Stepper';
+import { fadeUp, hoverTap } from '../../../Utils/animacoes';
+
+const MotionLink = motion.create(Link);
 
 export default function Sucesso({ campanha, doacao }) {
     const agora = new Date();
@@ -12,13 +17,17 @@ export default function Sucesso({ campanha, doacao }) {
             <section className="max-w-xl mx-auto px-6 pt-10 pb-24">
                 <Stepper etapaAtual={3} />
 
+                <motion.div initial="hidden" animate="show" variants={fadeUp}>
                 <Card hover={false} padding="lg">
                     <div className="text-center mb-8">
-                        <div className="w-16 h-16 rounded-full bg-night-800/10 flex items-center justify-center mx-auto mb-4">
-                            <svg className="w-8 h-8 text-night-800" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
+                        <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.15 }}
+                            className="w-16 h-16 rounded-full bg-night-800/10 flex items-center justify-center mx-auto mb-4"
+                        >
+                            <Check className="w-8 h-8 text-night-800" strokeWidth={2.5} />
+                        </motion.div>
                         <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Doação realizada com sucesso!</h1>
                         <p className="text-sm text-bark-400">
                             Muito obrigado por sua contribuição. Você acabou de fazer a diferença na vida de alguém. 💛
@@ -57,13 +66,15 @@ export default function Sucesso({ campanha, doacao }) {
                         )}
                     </div>
 
-                    <Link
+                    <MotionLink
+                        {...hoverTap}
                         href={route('campanhas.show', campanha.slug)}
                         className="block w-full py-3.5 text-sm font-semibold text-white bg-night-800 hover:bg-night-700 rounded-xl transition-colors text-center"
                     >
                         Voltar para a campanha
-                    </Link>
+                    </MotionLink>
                 </Card>
+                </motion.div>
             </section>
         </AppLayout>
     );

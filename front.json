@@ -1,0 +1,278 @@
+{
+  "project": "Aurora - Plataforma Beneficente",
+  "design_system": {
+    "style": "Modern Social Impact SaaS",
+    "inspiration": [
+      "Vakinha",
+      "Benfeitoria",
+      "Mercado Pago",
+      "Stripe",
+      "Notion"
+    ],
+    "personality": [
+      "Confiável",
+      "Humana",
+      "Solidária",
+      "Moderna",
+      "Tecnológica",
+      "Leve"
+    ]
+  },
+
+  "colors": {
+    "primary": {
+      "900": "#011241",
+      "800": "#02164B",
+      "700": "#06245F",
+      "600": "#0B2E78",
+      "500": "#123A8C"
+    },
+
+    "cta": {
+      "primary": "#FA8002",
+      "hover": "#E7661D",
+      "light": "#FFB347"
+    },
+
+    "background": {
+      "hero": "#011241",
+      "page": "#F8F9FD",
+      "card": "#FFFFFF",
+      "soft": "#EDF2FD"
+    },
+
+    "text": {
+      "primary": "#0F172A",
+      "secondary": "#475569",
+      "light": "#FFFFFF",
+      "muted": "#CBD5E1"
+    },
+
+    "status": {
+      "success": "#22C55E",
+      "warning": "#FA8002",
+      "danger": "#EF4444",
+      "info": "#2563EB"
+    },
+
+    "glass": {
+      "background": "rgba(255,255,255,0.10)",
+      "border": "rgba(255,255,255,0.18)"
+    }
+  },
+
+  "gradients": {
+    "hero": {
+      "type": "radial",
+      "css": "radial-gradient(circle at 72% 45%, rgba(18,58,140,0.95) 0%, rgba(6,36,95,0.95) 35%, rgba(2,22,75,1) 68%, rgba(1,18,65,1) 100%)"
+    },
+
+    "footer_cta": {
+      "type": "linear",
+      "css": "linear-gradient(90deg, #011241 0%, #02164B 50%, #06245F 100%)"
+    }
+  },
+
+  "layout": {
+    "container_width": "1200px",
+    "navbar_height": "72px",
+
+    "hero": {
+      "height": "720px",
+      "columns": "48% 52%",
+      "alignment": "center"
+    },
+
+    "section_spacing": {
+      "desktop": "120px",
+      "tablet": "80px",
+      "mobile": "60px"
+    }
+  },
+
+  "navbar": {
+    "background": "transparent",
+    "scroll_background": "rgba(1,18,65,0.88)",
+    "blur": "16px",
+
+    "logo": {
+      "type": "heart",
+      "color_primary": "#2563EB",
+      "color_secondary": "#FA8002"
+    },
+
+    "links": {
+      "color": "#FFFFFF",
+      "active_color": "#FFFFFF",
+      "active_border": "#FA8002"
+    },
+
+    "button": {
+      "background": "transparent",
+      "border": "rgba(255,255,255,0.35)",
+      "text": "#FFFFFF",
+      "radius": "12px"
+    }
+  },
+
+  "hero": {
+    "badge": {
+      "background": "rgba(255,255,255,0.08)",
+      "border": "rgba(255,255,255,0.12)",
+      "text": "#FFFFFF"
+    },
+
+    "title": {
+      "font_size": "72px",
+      "font_weight": 800,
+      "line_height": 1.05,
+      "color": "#FFFFFF",
+      "highlight": "#FA8002"
+    },
+
+    "subtitle": {
+      "font_size": "20px",
+      "line_height": 1.8,
+      "color": "rgba(255,255,255,0.85)"
+    },
+
+    "buttons": {
+      "primary": {
+        "background": "#FA8002",
+        "text": "#FFFFFF",
+        "hover": "#E7661D",
+        "shadow": "0 15px 40px rgba(250,128,2,0.35)"
+      },
+
+      "secondary": {
+        "background": "transparent",
+        "border": "rgba(255,255,255,0.25)",
+        "text": "#FFFFFF"
+      }
+    }
+  },
+
+  "illustration": {
+    "style": "Flat Modern Illustration",
+    "theme": "Donation Family",
+    "character_colors": {
+      "shirt": "#2453B8",
+      "shirt_shadow": "#1E429A",
+      "skin": "#F6B26B"
+    },
+
+    "rules": [
+      "Mulher sorrindo de boca fechada",
+      "Sem dentes aparentes",
+      "Expressão amigável",
+      "Visual humanizado",
+      "Sem traços infantis"
+    ]
+  },
+
+  "background_shapes": {
+    "heart": {
+      "enabled": true,
+      "color": "rgba(37,99,235,0.18)",
+      "width": "560px",
+      "height": "500px",
+      "blur": "0px",
+      "position": "behind-illustration"
+    }
+  },
+
+  "floating_cards": {
+    "style": "glassmorphism",
+
+    "background": "rgba(255,255,255,0.10)",
+    "backdrop_blur": "16px",
+    "border": "1px solid rgba(255,255,255,0.18)",
+    "radius": "16px",
+
+    "shadow": "0 20px 50px rgba(0,0,0,0.25)",
+
+    "positions": {
+      "families": {
+        "top": "120px",
+        "left": "40px"
+      },
+
+      "goal": {
+        "top": "90px",
+        "right": "40px"
+      },
+
+      "donation": {
+        "bottom": "90px",
+        "right": "180px"
+      }
+    }
+  },
+
+  "wave_divider": {
+    "enabled": true,
+    "color": "#F8F9FD",
+    "height": "80px",
+    "style": "soft organic curve"
+  },
+
+  "cards": {
+    "background": "#FFFFFF",
+    "radius": "24px",
+    "shadow": "0 10px 40px rgba(15,23,42,0.08)",
+
+    "campaign": {
+      "image_radius": "16px",
+      "progress_color": "#2563EB",
+      "progress_background": "#E2E8F0"
+    }
+  },
+
+  "icons": {
+    "library": "lucide-react",
+
+    "style": {
+      "stroke": 1.75,
+      "color": "#2563EB"
+    }
+  },
+
+  "animations": {
+    "library": "framer-motion",
+
+    "hero": {
+      "title": "fadeUp",
+      "subtitle": "fadeUp",
+      "buttons": "fadeUp",
+      "illustration": "fadeInScale"
+    },
+
+    "floating_cards": {
+      "effect": "floating",
+      "duration": 4,
+      "repeat": "infinite"
+    },
+
+    "campaign_cards": {
+      "hover": {
+        "scale": 1.03,
+        "shadow": true
+      }
+    },
+
+    "buttons": {
+      "hover_scale": 1.03,
+      "tap_scale": 0.98
+    }
+  },
+
+  "react_stack": {
+    "framework": "React",
+    "bundler": "Vite",
+    "styling": "Tailwind CSS",
+    "animation": "Framer Motion",
+    "icons": "Lucide React",
+    "routing": "React Router",
+    "http": "Axios"
+  }
+}

@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { QrCode, Copy, Check } from 'lucide-react';
 import AppLayout from '../../../Layouts/AppLayout';
 import Card from '../../../Components/UI/Card';
 import Stepper from '../../../Components/Doacao/Stepper';
 import { usePagamentoPolling } from '../../../Hooks/usePagamentoPolling';
+import { fadeUp, hoverTap } from '../../../Utils/animacoes';
+
+const MotionLink = motion.create(Link);
 
 export default function Pagamento({ campanha, doacao, pagamento }) {
     const [copiado, setCopiado] = useState(false);
@@ -24,6 +29,7 @@ export default function Pagamento({ campanha, doacao, pagamento }) {
             <section className="max-w-xl mx-auto px-6 pt-10 pb-24">
                 <Stepper etapaAtual={2} />
 
+                <motion.div initial="hidden" animate="show" variants={fadeUp}>
                 <Card hover={false} padding="lg">
                     <div className="flex items-start justify-between mb-6">
                         <div>
@@ -31,9 +37,7 @@ export default function Pagamento({ campanha, doacao, pagamento }) {
                             <p className="text-sm text-bark-400">para realizar o pagamento</p>
                         </div>
                         <div className="flex items-center gap-1.5 text-bark-500">
-                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M15.45 17.97l-3.47-3.47a1.32 1.32 0 010-1.86l3.47-3.47c.39-.39.39-1.02 0-1.41l-2.12-2.12a1 1 0 00-1.41 0L8.45 9.11a1.32 1.32 0 01-1.86 0L3.12 5.64a1 1 0 00-1.41 0L.59 6.76a2 2 0 000 2.83l3.47 3.47a1.32 1.32 0 010 1.86L.59 18.39a2 2 0 000 2.83l1.12 1.12a1 1 0 001.41 0l3.47-3.47a1.32 1.32 0 011.86 0l3.47 3.47a1 1 0 001.41 0l2.12-2.12c.39-.39.39-1.02 0-1.41v.16z" />
-                            </svg>
+                            <QrCode className="w-5 h-5" strokeWidth={1.8} />
                             <span className="text-xs font-semibold uppercase tracking-wider">pix</span>
                         </div>
                     </div>
@@ -68,15 +72,17 @@ export default function Pagamento({ campanha, doacao, pagamento }) {
                                     readOnly
                                     className="flex-1 bg-transparent text-xs text-bark-500 font-mono truncate border-0 focus:ring-0 p-0"
                                 />
-                                <button
+                                <motion.button
+                                    {...hoverTap}
                                     type="button"
                                     onClick={copiarCodigo}
-                                    className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                                    className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                                         copiado ? 'bg-sage-100 text-sage-500' : 'bg-night-800 text-white hover:bg-night-700'
                                     }`}
                                 >
+                                    {copiado ? <Check className="w-3.5 h-3.5" strokeWidth={2.5} /> : <Copy className="w-3.5 h-3.5" strokeWidth={2} />}
                                     {copiado ? 'Copiado!' : 'Copiar código'}
-                                </button>
+                                </motion.button>
                             </div>
                         </div>
                     )}
@@ -84,12 +90,13 @@ export default function Pagamento({ campanha, doacao, pagamento }) {
                     <p className="text-xs text-bark-300 text-right mb-6">Powered by Confrapag</p>
 
                     <div className="space-y-3">
-                        <Link
+                        <MotionLink
+                            {...hoverTap}
                             href={route('doacao.confirmar', [campanha.slug, doacao.id])}
                             className="block w-full py-3.5 text-sm font-semibold text-white bg-night-800 hover:bg-night-700 rounded-xl transition-colors text-center"
                         >
                             Já paguei, verificar
-                        </Link>
+                        </MotionLink>
                         <Link
                             href={route('campanhas.show', campanha.slug)}
                             className="block w-full py-3 text-sm font-medium text-bark-400 hover:text-bark-600 text-center transition-colors"
@@ -98,6 +105,7 @@ export default function Pagamento({ campanha, doacao, pagamento }) {
                         </Link>
                     </div>
                 </Card>
+                </motion.div>
             </section>
         </AppLayout>
     );

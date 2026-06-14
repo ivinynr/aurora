@@ -3,7 +3,7 @@ import Navbar from '../Components/Layout/Navbar';
 import Footer from '../Components/Layout/Footer';
 import Alerta from '../Components/UI/Alerta';
 
-export default function AppLayout({ titulo, descricao, children }) {
+export default function AppLayout({ titulo, descricao, children, navbarTransparente = false }) {
     const { flash } = usePage().props;
     const temFlash = flash?.sucesso || flash?.erro || flash?.aviso;
 
@@ -13,7 +13,7 @@ export default function AppLayout({ titulo, descricao, children }) {
                 {descricao && <meta name="description" content={descricao} />}
             </Head>
 
-            <Navbar />
+            <Navbar transparente={navbarTransparente} />
 
             <main className="flex-1 relative z-10">
                 {temFlash && (

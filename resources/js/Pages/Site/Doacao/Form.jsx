@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useForm } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import AppLayout from '../../../Layouts/AppLayout';
 import Card from '../../../Components/UI/Card';
 import Input from '../../../Components/UI/Input';
 import Alerta from '../../../Components/UI/Alerta';
 import Stepper from '../../../Components/Doacao/Stepper';
+import { fadeUp, hoverTap } from '../../../Utils/animacoes';
 
 const VALORES_SUGERIDOS = [10, 20, 50, 100];
 
@@ -35,6 +38,7 @@ export default function Form({ campanha }) {
             <section className="max-w-xl mx-auto px-6 pt-10 pb-24">
                 <Stepper etapaAtual={1} />
 
+                <motion.div initial="hidden" animate="show" variants={fadeUp}>
                 <Card hover={false} padding="lg">
                     <div className="text-center mb-8">
                         <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Escolha o valor da sua doação</h1>
@@ -151,16 +155,19 @@ export default function Form({ campanha }) {
                                 />
                             </div>
 
-                            <button
+                            <motion.button
+                                {...hoverTap}
                                 type="submit"
                                 disabled={processing}
-                                className="w-full py-3.5 text-sm font-semibold text-white bg-night-800 hover:bg-night-700 rounded-xl transition-colors disabled:opacity-50"
+                                className="w-full inline-flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-white bg-night-800 hover:bg-night-700 rounded-xl transition-colors disabled:opacity-50"
                             >
                                 Continuar
-                            </button>
+                                <ArrowRight className="w-4 h-4" strokeWidth={2} />
+                            </motion.button>
                         </div>
                     </form>
                 </Card>
+                </motion.div>
 
                 <p className="text-center text-xs text-bark-300 mt-4">
                     Doação para <span className="font-medium text-bark-500">{campanha.titulo}</span>

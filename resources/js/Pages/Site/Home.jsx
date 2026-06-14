@@ -1,5 +1,20 @@
 import { Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import {
+    ShieldCheck,
+    Lock,
+    BarChart3,
+    Users,
+    DollarSign,
+    Heart,
+    Search,
+    ArrowRight,
+    Target,
+} from 'lucide-react';
 import AppLayout from '../../Layouts/AppLayout';
+import { fadeUp, fadeInScale, containerStagger, flutuar, hoverTap, viewportOnce } from '../../Utils/animacoes';
+
+const MotionLink = motion.create(Link);
 
 const IMAGENS_CAMPANHA = [
     'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=85',
@@ -38,22 +53,22 @@ const CAMPANHAS_MOCKADAS = [
 ];
 
 const FEATURES_HERO = [
-    ['M12 3l7 4v5c0 4.5-2.8 8.4-7 9-4.2-.6-7-4.5-7-9V7l7-4z', 'Instituições verificadas'],
-    ['M16.5 10.5V7.75a4.5 4.5 0 00-9 0v2.75M5.75 10.5h12.5v9H5.75v-9z', 'Pagamento seguro via PIX'],
-    ['M5 19V9m7 10V5m7 14v-7', 'Transparência total'],
+    [ShieldCheck, 'Instituições verificadas'],
+    [Lock, 'Pagamento seguro via PIX'],
+    [BarChart3, 'Transparência total'],
 ];
 
 const STATS = [
-    ['M16 19a4 4 0 00-8 0M12 12a3 3 0 100-6 3 3 0 000 6zm8 7a3 3 0 00-5.2-2', 'bg-[#0D3B9E]/10 text-[#0D3B9E]', '+500', 'Famílias ajudadas'],
-    ['M12 6v12m4-8.5A3.5 3.5 0 0012 7H9.8a2.8 2.8 0 000 5.6h4.4a2.8 2.8 0 010 5.6H12a3.5 3.5 0 01-4-2.5', 'bg-[#0D3B9E]/10 text-[#0D3B9E]', '+R$ 120.000', 'Arrecadados'],
-    ['M20.8 8.6a5.1 5.1 0 00-8.1-3.9l-.7.7-.7-.7a5.1 5.1 0 00-8.1 6.2L12 20l8.8-9.1a5.1 5.1 0 000-2.3z', 'bg-[#FA8002]/10 text-[#FA8002]', '+3.200', 'Doações realizadas'],
+    [Users, 'bg-[#0D3B9E]/10 text-[#0D3B9E]', '+500', 'Famílias ajudadas'],
+    [DollarSign, 'bg-[#0D3B9E]/10 text-[#0D3B9E]', '+R$ 120.000', 'Arrecadados'],
+    [Heart, 'bg-[#FA8002]/10 text-[#FA8002]', '+3.200', 'Doações realizadas'],
 ];
 
 const PASSOS = [
-    ['1. Escolha', 'Navegue pelas campanhas e escolha a causa que deseja apoiar.', 'M21 21l-4.3-4.3m1.3-5.2a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z'],
-    ['2. Doe', 'Faça sua doação de forma segura via PIX em segundos.', 'M20.8 8.6a5.1 5.1 0 00-8.1-3.9l-.7.7-.7-.7a5.1 5.1 0 00-8.1 6.2L12 20l8.8-9.1a5.1 5.1 0 000-2.3z'],
-    ['3. Acompanhe', 'Veja o andamento da campanha com total transparência.', 'M12 3l7 4v5c0 4.5-2.8 8.4-7 9-4.2-.6-7-4.5-7-9V7l7-4zm-3 9l2 2 4-5'],
-    ['4. Impacte', 'Sua doação chega a quem precisa e transforma vidas.', 'M16 19a4 4 0 00-8 0M12 12a3 3 0 100-6 3 3 0 000 6zm8 7a3 3 0 00-5.2-2'],
+    ['1. Escolha', 'Navegue pelas campanhas e escolha a causa que deseja apoiar.', Search],
+    ['2. Doe', 'Faça sua doação de forma segura via PIX em segundos.', Heart],
+    ['3. Acompanhe', 'Veja o andamento da campanha com total transparência.', ShieldCheck],
+    ['4. Impacte', 'Sua doação chega a quem precisa e transforma vidas.', Users],
 ];
 
 export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
@@ -80,57 +95,59 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
         : '50,00';
 
     return (
-        <AppLayout titulo="Aurora — Doe com confiança">
-            <section className="relative h-[650px] min-h-[650px] max-h-[650px] overflow-hidden bg-[#011241] text-white">
-                <div className="absolute inset-0 bg-[linear-gradient(110deg,#011241_0%,#02164B_45%,#06245F_72%,#0B2E78_100%)]"></div>
+        <AppLayout titulo="Aurora — Doe com confiança" navbarTransparente>
+            <section className="relative h-[650px] min-h-[650px] overflow-hidden bg-[#011241] pt-[88px] text-white">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(18,58,140,0.95)_0%,rgba(6,36,95,0.95)_35%,rgba(2,22,75,1)_68%,rgba(1,18,65,1)_100%)]"></div>
 
                 <div className="relative z-10 mx-auto grid h-full max-w-[1180px] grid-cols-1 items-center px-6 lg:grid-cols-[48%_52%]">
-                    <div className="max-w-xl">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-[#FFFFFF] shadow-[0_14px_36px_rgba(0,0,0,.18)] backdrop-blur">
+                    <motion.div className="max-w-xl" variants={containerStagger} initial="hidden" animate="show">
+                        <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-[#FFFFFF] shadow-[0_14px_36px_rgba(0,0,0,.18)] backdrop-blur">
                             <span className="inline-flex w-5 h-5 items-center justify-center rounded-full bg-[#FA8002]/15 text-[#FA8002]">
-                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3l7 4v5c0 4.5-2.8 8.4-7 9-4.2-.6-7-4.5-7-9V7l7-4z"/></svg>
+                                <ShieldCheck className="w-3.5 h-3.5" strokeWidth={2} />
                             </span>
                             Pagamentos via PIX processados pela Confrapag
-                        </div>
+                        </motion.div>
 
-                        <h1 className="mt-6 max-w-[560px] font-serif text-4xl font-extrabold leading-[1.08] tracking-normal sm:text-5xl lg:text-[56px]">
+                        <motion.h1 variants={fadeUp} className="mt-6 max-w-[560px] font-serif text-4xl font-extrabold leading-[1.08] tracking-normal sm:text-5xl lg:text-[56px]">
                             Transforme solidariedade em{' '}
                             <span className="text-[#FA8002]">impacto real.</span>
-                        </h1>
+                        </motion.h1>
 
-                        <p className="mt-5 max-w-[520px] text-[17px] leading-[1.7] text-[rgba(255,255,255,0.86)]">
+                        <motion.p variants={fadeUp} className="mt-5 max-w-[520px] text-[17px] leading-[1.7] text-[rgba(255,255,255,0.86)]">
                             Doe para campanhas de instituições verificadas e acompanhe, com total transparência,
                             cada real chegando a quem precisa.
-                        </p>
+                        </motion.p>
 
-                        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                            <Link
+                        <motion.div variants={fadeUp} className="mt-7 flex flex-col gap-3 sm:flex-row">
+                            <MotionLink
+                                {...hoverTap}
                                 href={route('campanhas.index')}
                                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#FA8002] px-6 py-3.5 text-sm font-bold text-white shadow-[0_18px_35px_rgba(250,128,2,.24)] transition-colors hover:bg-[#E7661D]"
                             >
                                 Ver campanhas
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
-                            </Link>
-                            <a
+                                <ArrowRight className="w-4 h-4" strokeWidth={2} />
+                            </MotionLink>
+                            <motion.a
+                                {...hoverTap}
                                 href="#como-funciona"
                                 className="inline-flex items-center justify-center rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/10"
                             >
                                 Como funciona
-                            </a>
-                        </div>
+                            </motion.a>
+                        </motion.div>
 
-                        <div className="mt-7 grid grid-cols-1 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
-                            {FEATURES_HERO.map(([icone, texto]) => (
+                        <motion.div variants={fadeUp} className="mt-7 grid grid-cols-1 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
+                            {FEATURES_HERO.map(([Icone, texto]) => (
                                 <div key={texto} className="flex items-center gap-3">
                                     <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white">
-                                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.7"><path strokeLinecap="round" strokeLinejoin="round" d={icone}/></svg>
+                                        <Icone className="h-4 w-4" strokeWidth={1.7} />
                                     </span>
                                     <p className="text-xs leading-5 text-[#FFFFFF]">{texto}</p>
                                 </div>
                             ))}
-                        </div>
+                        </motion.div>
 
-                        <div className="mt-5 grid grid-cols-3 gap-2.5">
+                        <motion.div variants={fadeUp} className="mt-5 grid grid-cols-3 gap-2.5">
                             {[
                                 [`R$ ${totalDoado.toLocaleString('pt-BR')}`, 'arrecadados'],
                                 [totalDoacoes.toLocaleString('pt-BR'), 'doações'],
@@ -141,26 +158,26 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                                     <p className="mt-1 text-xs text-[#FFFFFF]">{label}</p>
                                 </div>
                             ))}
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
-                    <div className="relative mx-auto hidden h-[560px] w-full max-w-[640px] lg:block">
-                        <div className="absolute left-[30px] top-[116px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
+                    <motion.div className="relative mx-auto hidden h-[560px] w-full max-w-[640px] lg:block" variants={fadeInScale} initial="hidden" animate="show">
+                        <motion.div {...flutuar(0)} className="absolute left-[30px] top-[116px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
                             <div className="flex items-center gap-3">
                                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#0D3B9E]/35 text-white">
-                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M16 19a4 4 0 00-8 0M12 12a3 3 0 100-6 3 3 0 000 6zm8 7a3 3 0 00-5.2-2"/></svg>
+                                    <Users className="w-4 h-4" strokeWidth={1.8} />
                                 </span>
                                 <div>
                                     <p className="text-[13px] font-bold">35 famílias</p>
                                     <p className="text-xs text-[#FFFFFF]">já foram ajudadas</p>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="absolute right-[40px] top-[94px] z-[3] w-52 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
+                        <motion.div {...flutuar(1.3)} className="absolute right-[40px] top-[94px] z-[3] w-52 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
                             <div className="flex items-center gap-3">
                                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/12 text-white">
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-4.5a4.5 4.5 0 100-9 4.5 4.5 0 000 9zm3.2-7.7l2.2-2.2"/></svg>
+                                    <Target className="w-5 h-5" strokeWidth={1.8} />
                                 </span>
                                 <div>
                                     <p className="text-[13px] font-bold">Meta da campanha</p>
@@ -170,7 +187,7 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                             <div className="mt-3 h-2 rounded-full bg-white/15">
                                 <div className="h-full w-[78%] rounded-full bg-[#FA8002]"></div>
                             </div>
-                        </div>
+                        </motion.div>
 
                         <svg className="absolute inset-x-0 top-12 z-0 mx-auto h-[430px] w-[500px] text-[rgba(37,99,235,0.20)] opacity-[0.85]" viewBox="0 0 560 500" fill="none" aria-hidden="true">
                             <path fill="currentColor" d="M280 455C237 406 100 330 77 204C59 104 134 44 205 84C242 105 266 141 280 176C294 141 318 105 355 84C426 44 501 104 483 204C460 330 323 406 280 455Z"/>
@@ -183,7 +200,7 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                             />
                         </div>
 
-                        <div className="absolute bottom-[92px] right-[170px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
+                        <motion.div {...flutuar(2.2)} className="absolute bottom-[92px] right-[170px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
                             <div className="flex items-center gap-3">
                                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FA8002] text-xs font-bold text-white">
                                     {nomeDoador.substring(0, 1).toUpperCase()}
@@ -192,10 +209,10 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                                     <p className="text-[13px] font-bold">{nomeDoador} doou</p>
                                     <p className="text-xs text-[#FFFFFF]">R$ {valorDoador}</p>
                                 </div>
-                                <svg className="w-5 h-5 text-[#FA8002]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.7"><path strokeLinecap="round" strokeLinejoin="round" d="M20.8 8.6a5.1 5.1 0 00-8.1-3.9l-.7.7-.7-.7a5.1 5.1 0 00-8.1 6.2L12 20l8.8-9.1a5.1 5.1 0 000-2.3z"/></svg>
+                                <Heart className="w-5 h-5 text-[#FA8002]" strokeWidth={1.7} fill="currentColor" />
                             </div>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 </div>
 
                 <div className="absolute bottom-[-1px] left-0 z-20 w-full overflow-hidden leading-none">
@@ -205,21 +222,27 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                 </div>
             </section>
 
-            <section className="relative z-40 -mt-[30px] bg-[#F8F9FD]">
+            <section className="relative z-40 mt-10 bg-[#F8F9FD]">
                 <div className="mx-auto max-w-[1060px] px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl border border-[#011241]/10 bg-[#FFFFFF] px-7 py-7 shadow-[0_18px_55px_rgba(1,18,65,.08)]">
-                        {STATS.map(([icone, classe, valor, label]) => (
-                            <div key={label} className="flex items-center gap-5 md:justify-center">
+                    <motion.div
+                        variants={containerStagger}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={viewportOnce}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl border border-[#011241]/10 bg-[#FFFFFF] px-7 py-7 shadow-[0_18px_55px_rgba(1,18,65,.08)]"
+                    >
+                        {STATS.map(([Icone, classe, valor, label]) => (
+                            <motion.div variants={fadeUp} key={label} className="flex items-center gap-5 md:justify-center">
                                 <span className={`inline-flex w-16 h-16 shrink-0 items-center justify-center rounded-full ${classe}`}>
-                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8"><path strokeLinecap="round" strokeLinejoin="round" d={icone}/></svg>
+                                    <Icone className="w-8 h-8" strokeWidth={1.8} />
                                 </span>
                                 <div>
                                     <p className="text-2xl font-bold text-[#02164B]">{valor}</p>
                                     <p className="mt-1 text-sm text-[#02164B]/70">{label}</p>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -232,20 +255,29 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                         </div>
                         <Link href={route('campanhas.index')} className="inline-flex items-center gap-2 text-sm font-bold text-[#0D3B9E] hover:text-[#042168]">
                             Ver todas as campanhas
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            <ArrowRight className="w-4 h-4" strokeWidth={2} />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <motion.div
+                        variants={containerStagger}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={viewportOnce}
+                        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+                    >
                         {campanhas.map((campanha, indice) => {
                             const percentual = campanha.meta > 0 ? Math.min(100, Math.round((campanha.arrecadado / campanha.meta) * 100)) : 0;
                             const url = campanha.slug ? route('campanhas.show', campanha.slug) : route('campanhas.index');
 
                             return (
-                                <Link
+                                <MotionLink
                                     key={campanha.slug ?? indice}
+                                    variants={fadeUp}
+                                    whileHover={{ y: -6, scale: 1.03 }}
+                                    transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                                     href={url}
-                                    className="group block overflow-hidden rounded-2xl border border-[#011241]/10 bg-[#FFFFFF] shadow-[0_14px_38px_rgba(1,18,65,.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(1,18,65,.12)]"
+                                    className="group block overflow-hidden rounded-2xl border border-[#011241]/10 bg-[#FFFFFF] shadow-[0_14px_38px_rgba(1,18,65,.07)] hover:shadow-[0_20px_50px_rgba(1,18,65,.12)]"
                                 >
                                     <div className="aspect-[16/10] overflow-hidden bg-[#F8F9FD]">
                                         {campanha.imagem ? (
@@ -278,39 +310,51 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                                             <span className="text-sm text-[#02164B]/70">{campanha.doacoes} doações</span>
                                         </div>
                                     </div>
-                                </Link>
+                                </MotionLink>
                             );
                         })}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
-            <section id="como-funciona" className="bg-[#F8F9FD] pb-16">
+            <section id="como-funciona" className="scroll-mt-24 bg-[#F8F9FD] pb-16">
                 <div className="max-w-6xl mx-auto px-6 lg:px-8">
                     <div className="rounded-3xl border border-[#011241]/10 bg-[#FFFFFF] px-6 py-8 shadow-[0_14px_45px_rgba(1,18,65,.06)] lg:px-8">
                         <h2 className="font-serif text-2xl font-bold text-[#02164B]">Como funciona</h2>
-                        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-                            {PASSOS.map(([titulo, texto, icone]) => (
-                                <div key={titulo}>
+                        <motion.div
+                            variants={containerStagger}
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={viewportOnce}
+                            className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6"
+                        >
+                            {PASSOS.map(([titulo, texto, Icone]) => (
+                                <motion.div variants={fadeUp} key={titulo}>
                                     <span className="inline-flex w-14 h-14 items-center justify-center rounded-full bg-[#0D3B9E]/10 text-[#0D3B9E]">
-                                        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.7"><path strokeLinecap="round" strokeLinejoin="round" d={icone}/></svg>
+                                        <Icone className="w-7 h-7" strokeWidth={1.7} />
                                     </span>
                                     <h3 className="mt-5 text-sm font-bold text-[#02164B]">{titulo}</h3>
                                     <p className="mt-2 text-sm leading-6 text-[#02164B]/70">{texto}</p>
-                                </div>
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
 
-            <section id="sobre-nos" className="bg-[#F8F9FD] pb-20">
+            <section id="sobre-nos" className="scroll-mt-24 bg-[#F8F9FD] pb-20">
                 <div className="max-w-6xl mx-auto px-6 lg:px-8">
-                    <div className="rounded-3xl bg-[#011241] px-8 py-10 text-white shadow-[0_24px_65px_rgba(1,18,65,.22)] lg:px-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={viewportOnce}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        className="rounded-3xl bg-[#011241] px-8 py-10 text-white shadow-[0_24px_65px_rgba(1,18,65,.22)] lg:px-10"
+                    >
                         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
                             <div className="flex items-start gap-5">
                                 <span className="inline-flex w-16 h-16 shrink-0 items-center justify-center rounded-full bg-[#042168] text-white">
-                                    <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08A6.02 6.02 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                    <Heart className="w-8 h-8" fill="currentColor" strokeWidth={0} />
                                 </span>
                                 <div>
                                     <h2 className="font-serif text-2xl lg:text-3xl font-bold leading-tight">
@@ -321,12 +365,12 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                                 </div>
                             </div>
 
-                            <Link href={route('campanhas.index')} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#FA8002] px-8 py-4 text-sm font-bold text-white transition-colors hover:bg-[#E7661D]">
-                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08A6.02 6.02 0 0116.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            <MotionLink {...hoverTap} href={route('campanhas.index')} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#FA8002] px-8 py-4 text-sm font-bold text-white transition-colors hover:bg-[#E7661D]">
+                                <Heart className="w-5 h-5" fill="currentColor" strokeWidth={0} />
                                 Quero fazer parte
-                            </Link>
+                            </MotionLink>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
         </AppLayout>

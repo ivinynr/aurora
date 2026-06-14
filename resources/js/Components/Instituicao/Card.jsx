@@ -1,12 +1,19 @@
 import { Link } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+import { MapPin } from 'lucide-react';
+import { fadeUp, hoverCard } from '../../Utils/animacoes';
+
+const MotionLink = motion.create(Link);
 
 export default function Card({ instituicao }) {
     const totalCampanhas = instituicao.campanhas_count ?? instituicao.campanhas?.length ?? 0;
 
     return (
-        <Link
+        <MotionLink
+            variants={fadeUp}
+            {...hoverCard}
             href={route('instituicoes.show', instituicao.slug)}
-            className="group bg-white rounded-xl shadow-warm border border-cream-200 overflow-hidden card-lift block"
+            className="group bg-white rounded-xl shadow-warm border border-cream-200 overflow-hidden block"
         >
             <div className="aspect-[16/10] bg-cream-200 relative overflow-hidden">
                 {instituicao.logo_url ? (
@@ -35,7 +42,10 @@ export default function Card({ instituicao }) {
 
                 <div className="mt-4 pt-3 border-t border-cream-200 flex items-center justify-between">
                     {instituicao.cidade ? (
-                        <span className="text-xs text-bark-300">{instituicao.cidade}, {instituicao.estado}</span>
+                        <span className="inline-flex items-center gap-1 text-xs text-bark-300">
+                            <MapPin className="w-3.5 h-3.5" strokeWidth={1.7} />
+                            {instituicao.cidade}, {instituicao.estado}
+                        </span>
                     ) : (
                         <span></span>
                     )}
@@ -44,6 +54,6 @@ export default function Card({ instituicao }) {
                     </span>
                 </div>
             </div>
-        </Link>
+        </MotionLink>
     );
 }
