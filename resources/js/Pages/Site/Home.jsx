@@ -10,47 +10,12 @@ import {
     Search,
     ArrowRight,
     Target,
+    MapPin,
 } from 'lucide-react';
 import AppLayout from '../../Layouts/AppLayout';
 import { fadeUp, fadeInScale, containerStagger, flutuar, hoverTap, viewportOnce } from '../../Utils/animacoes';
 
 const MotionLink = motion.create(Link);
-
-const IMAGENS_CAMPANHA = [
-    'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=85',
-    'https://images.unsplash.com/photo-1576765974022-b6b8d48c28a8?auto=format&fit=crop&w=900&q=85',
-    'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=900&q=85',
-];
-
-const CAMPANHAS_MOCKADAS = [
-    {
-        titulo: 'Cestas Básicas',
-        descricao: 'Ajude famílias em situação de vulnerabilidade.',
-        imagem: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=640&q=80',
-        arrecadado: 3500,
-        meta: 5000,
-        doacoes: 42,
-        slug: null,
-    },
-    {
-        titulo: 'Tratamento Infantil',
-        descricao: 'Contribua para tratamentos e medicamentos.',
-        imagem: 'https://images.unsplash.com/photo-1607453998774-d533f65dac99?auto=format&fit=crop&w=640&q=80',
-        arrecadado: 2450,
-        meta: 5000,
-        doacoes: 31,
-        slug: null,
-    },
-    {
-        titulo: 'Abrigo Pet Feliz',
-        descricao: 'Ajude na alimentação e cuidados dos animais.',
-        imagem: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=640&q=80',
-        arrecadado: 1280,
-        meta: 3000,
-        doacoes: 18,
-        slug: null,
-    },
-];
 
 const FEATURES_HERO = [
     [ShieldCheck, 'Instituições verificadas'],
@@ -71,36 +36,28 @@ const PASSOS = [
     ['4. Impacte', 'Sua doação chega a quem precisa e transforma vidas.', Users],
 ];
 
-export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
-    const totalDoado = estatisticas?.total_doado ?? 15455;
-    const totalDoacoes = estatisticas?.total_doacoes ?? 118;
-    const totalDoadores = estatisticas?.total_doadores ?? 18;
+export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
+    const campanhas = (destaques ?? []).slice(0, 3).map((campanha) => ({
+        titulo: campanha.titulo,
+        descricao: campanha.resumo,
+        imagem: campanha.imagem_url,
+        arrecadado: Number(campanha.valor_arrecadado),
+        meta: Number(campanha.meta),
+        doacoes: campanha.doacoes_confirmadas_count ?? campanha.total_doadores ?? 0,
+        slug: campanha.slug,
+    }));
 
-    const campanhas = destaques?.length > 0
-        ? destaques.slice(0, 3).map((campanha, indice) => ({
-            titulo: campanha.titulo,
-            descricao: campanha.resumo,
-            imagem: IMAGENS_CAMPANHA[indice] ?? campanha.imagem_url,
-            arrecadado: Number(campanha.valor_arrecadado),
-            meta: Number(campanha.meta),
-            doacoes: campanha.doacoes_confirmadas_count ?? campanha.total_doadores ?? 0,
-            slug: campanha.slug,
-        }))
-        : CAMPANHAS_MOCKADAS;
+    const instituicoesDestaque = (instituicoes ?? []).slice(0, 3);
 
     const ultimaDoacao = ultimasDoacoes?.[0];
-    const nomeDoador = ultimaDoacao?.nome_exibicao ?? 'Maria';
-    const valorDoador = ultimaDoacao
-        ? Number(ultimaDoacao.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-        : '50,00';
 
     return (
         <AppLayout titulo="Aurora — Doe com confiança" navbarTransparente>
             <section className="relative h-[650px] min-h-[650px] overflow-hidden bg-[#011241] pt-[88px] text-white">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(18,58,140,0.95)_0%,rgba(6,36,95,0.95)_35%,rgba(2,22,75,1)_68%,rgba(1,18,65,1)_100%)]"></div>
 
-                <div className="relative z-10 mx-auto grid h-full max-w-[1180px] grid-cols-1 items-center px-6 lg:grid-cols-[48%_52%]">
-                    <motion.div className="max-w-xl" variants={containerStagger} initial="hidden" animate="show">
+                <div className="relative z-20 mx-auto grid h-full max-w-[1180px] grid-cols-1 items-center px-6 lg:grid-cols-[48%_52%]">
+                    <motion.div className="max-w-xl -translate-y-[35px]" variants={containerStagger} initial="hidden" animate="show">
                         <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-[#FFFFFF] shadow-[0_14px_36px_rgba(0,0,0,.18)] backdrop-blur">
                             <span className="inline-flex w-5 h-5 items-center justify-center rounded-full bg-[#FA8002]/15 text-[#FA8002]">
                                 <ShieldCheck className="w-3.5 h-3.5" strokeWidth={2} />
@@ -136,7 +93,7 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                             </motion.a>
                         </motion.div>
 
-                        <motion.div variants={fadeUp} className="mt-7 grid grid-cols-1 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
+                        <motion.div variants={fadeUp} className="relative z-30 mt-7 -translate-y-3 grid grid-cols-1 gap-3 border-t border-white/10 pt-6 sm:grid-cols-3">
                             {FEATURES_HERO.map(([Icone, texto]) => (
                                 <div key={texto} className="flex items-center gap-3">
                                     <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white">
@@ -147,18 +104,6 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                             ))}
                         </motion.div>
 
-                        <motion.div variants={fadeUp} className="mt-5 grid grid-cols-3 gap-2.5">
-                            {[
-                                [`R$ ${totalDoado.toLocaleString('pt-BR')}`, 'arrecadados'],
-                                [totalDoacoes.toLocaleString('pt-BR'), 'doações'],
-                                [totalDoadores.toLocaleString('pt-BR'), 'doadores'],
-                            ].map(([valor, label]) => (
-                                <div key={label} className="rounded-xl border border-white/10 bg-white/10 px-3 py-3 backdrop-blur">
-                                    <p className="text-base font-bold text-white">{valor}</p>
-                                    <p className="mt-1 text-xs text-[#FFFFFF]">{label}</p>
-                                </div>
-                            ))}
-                        </motion.div>
                     </motion.div>
 
                     <motion.div className="relative mx-auto hidden h-[560px] w-full max-w-[640px] lg:block" variants={fadeInScale} initial="hidden" animate="show">
@@ -200,30 +145,40 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                             />
                         </div>
 
-                        <motion.div {...flutuar(2.2)} className="absolute bottom-[92px] right-[170px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
-                            <div className="flex items-center gap-3">
-                                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FA8002] text-xs font-bold text-white">
-                                    {nomeDoador.substring(0, 1).toUpperCase()}
-                                </span>
-                                <div>
-                                    <p className="text-[13px] font-bold">{nomeDoador} doou</p>
-                                    <p className="text-xs text-[#FFFFFF]">R$ {valorDoador}</p>
+                        {ultimaDoacao && (
+                            <motion.div {...flutuar(2.2)} className="absolute bottom-[92px] right-[170px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
+                                <div className="flex items-center gap-3">
+                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FA8002] text-xs font-bold text-white">
+                                        {ultimaDoacao.nome_exibicao.substring(0, 1).toUpperCase()}
+                                    </span>
+                                    <div>
+                                        <p className="text-[13px] font-bold">{ultimaDoacao.nome_exibicao} doou</p>
+                                        <p className="text-xs text-[#FFFFFF]">R$ {Number(ultimaDoacao.valor).toFixed(2).replace('.', ',')}</p>
+                                    </div>
+                                    <Heart className="w-5 h-5 text-[#FA8002]" strokeWidth={1.7} fill="currentColor" />
                                 </div>
-                                <Heart className="w-5 h-5 text-[#FA8002]" strokeWidth={1.7} fill="currentColor" />
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        )}
                     </motion.div>
                 </div>
 
-                <div className="absolute bottom-[-1px] left-0 z-20 w-full overflow-hidden leading-none">
-                    <svg className="relative block h-[70px] w-full" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-                        <path d="M0,55 C180,25 360,80 540,58 C760,32 940,82 1140,55 C1300,34 1380,42 1440,28 L1440,100 L0,100 Z" fill="#F8F9FD" />
+                <div className="absolute bottom-[-1px] left-0 w-full overflow-hidden leading-none z-20 pointer-events-none">
+                    <svg
+                        className="relative block w-full h-[90px]"
+                        viewBox="0 0 1440 120"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M0,72 C180,28 360,100 560,74 C760,48 940,92 1140,68 C1300,48 1380,56 1440,38 L1440,120 L0,120 Z"
+                            fill="#F8F9FD"
+                        />
                     </svg>
                 </div>
             </section>
 
-            <section className="relative z-40 mt-10 bg-[#F8F9FD]">
-                <div className="mx-auto max-w-[1060px] px-6">
+            <section className="relative z-40 -mt-px bg-[#F8F9FD] pb-12">
+                <div className="relative z-30 max-w-[1060px] mx-auto mt-[70px] px-6">
                     <motion.div
                         variants={containerStagger}
                         initial="hidden"
@@ -339,6 +294,72 @@ export default function Home({ destaques, ultimasDoacoes, estatisticas }) {
                             ))}
                         </motion.div>
                     </div>
+                </div>
+            </section>
+
+            <section className="bg-[#F8F9FD] pb-16 lg:pb-20">
+                <div className="max-w-6xl mx-auto px-6 lg:px-8">
+                    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                            <h2 className="font-serif text-2xl lg:text-3xl font-bold text-[#02164B]">Instituições em destaque</h2>
+                            <p className="mt-2 text-sm text-[#02164B]/70">Organizações verificadas que você pode apoiar com confiança.</p>
+                        </div>
+                        <Link href={route('instituicoes.index')} className="inline-flex items-center gap-2 text-sm font-bold text-[#0D3B9E] hover:text-[#042168]">
+                            Ver todas as instituições
+                            <ArrowRight className="w-4 h-4" strokeWidth={2} />
+                        </Link>
+                    </div>
+
+                    <motion.div
+                        variants={containerStagger}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={viewportOnce}
+                        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+                    >
+                        {instituicoesDestaque.map((instituicao, indice) => {
+                            const url = instituicao.slug ? route('instituicoes.show', instituicao.slug) : route('instituicoes.index');
+                            const totalCampanhas = instituicao.campanhas_count ?? 0;
+
+                            return (
+                                <MotionLink
+                                    key={instituicao.slug ?? indice}
+                                    variants={fadeUp}
+                                    whileHover={{ y: -6, scale: 1.03 }}
+                                    transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                                    href={url}
+                                    className="group block overflow-hidden rounded-2xl border border-[#011241]/10 bg-[#FFFFFF] shadow-[0_14px_38px_rgba(1,18,65,.07)] hover:shadow-[0_20px_50px_rgba(1,18,65,.12)]"
+                                >
+                                    <div className="aspect-[16/10] overflow-hidden bg-[#F8F9FD]">
+                                        {instituicao.logo_url ? (
+                                            <img src={instituicao.logo_url} alt={instituicao.nome} className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
+                                        ) : (
+                                            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#0D3B9E]/15 to-[#FA8002]/20">
+                                                <span className="font-serif text-5xl font-bold text-[#0D3B9E]/45">{instituicao.nome.substring(0, 1)}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-6">
+                                        <h3 className="font-serif text-lg font-bold text-[#02164B]">{instituicao.nome}</h3>
+                                        <p className="mt-2 min-h-10 text-sm leading-6 text-[#02164B]/70 line-clamp-2">
+                                            {instituicao.missao || instituicao.descricao}
+                                        </p>
+                                        <div className="mt-5 flex items-center justify-between gap-3">
+                                            {instituicao.cidade ? (
+                                                <span className="inline-flex items-center gap-1 text-xs text-[#02164B]/60">
+                                                    <MapPin className="w-3.5 h-3.5" strokeWidth={1.7} />
+                                                    {instituicao.cidade}, {instituicao.estado}
+                                                </span>
+                                            ) : <span />}
+                                            <span className="text-xs font-bold text-[#02164B]">
+                                                {totalCampanhas} {totalCampanhas === 1 ? 'campanha' : 'campanhas'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </MotionLink>
+                            );
+                        })}
+                    </motion.div>
                 </div>
             </section>
 

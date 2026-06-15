@@ -22,7 +22,6 @@ class HomeController extends Controller
         return Inertia::render('Site/Home', [
             'destaques' => $this->campanhaService->destaques(3),
             'ultimasDoacoes' => $this->doacaoService->ultimasDoacoes(8),
-            'estatisticas' => $this->doacaoService->estatisticas(),
             'instituicoes' => $this->instituicaoService->destaquesPagina(6),
         ]);
     }
