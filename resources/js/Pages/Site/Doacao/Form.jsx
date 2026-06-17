@@ -41,8 +41,8 @@ export default function Form({ campanha }) {
                 <motion.div initial="hidden" animate="show" variants={fadeUp}>
                 <Card hover={false} padding="lg">
                     <div className="text-center mb-8">
-                        <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Escolha o valor da sua doação</h1>
-                        <p className="text-sm text-bark-400">Toda contribuição faz a diferença!</p>
+                        <p className="text-xs font-medium text-terra-500 mb-2">{campanha.titulo}</p>
+                        <h1 className="font-serif text-xl font-bold text-bark-800">Escolha o valor da doação</h1>
                     </div>
 
                     {temErros && (
@@ -100,10 +100,6 @@ export default function Form({ campanha }) {
                                 )}
 
                                 {errors.valor && <p className="text-xs text-terra-500 mt-2 text-center">{errors.valor}</p>}
-
-                                <p className="text-xs text-bark-300 text-center mt-3">
-                                    Você será direcionado para o pagamento via PIX.
-                                </p>
                             </div>
 
                             <div className="border-t border-cream-200"></div>
@@ -169,9 +165,6 @@ export default function Form({ campanha }) {
                 </Card>
                 </motion.div>
 
-                <p className="text-center text-xs text-bark-300 mt-4">
-                    Doação para <span className="font-medium text-bark-500">{campanha.titulo}</span>
-                </p>
             </section>
         </AppLayout>
     );

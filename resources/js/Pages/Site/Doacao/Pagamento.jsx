@@ -33,18 +33,14 @@ export default function Pagamento({ campanha, doacao, pagamento }) {
                 <Card hover={false} padding="lg">
                     <div className="flex items-start justify-between mb-6">
                         <div>
-                            <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Escaneie o QR Code</h1>
-                            <p className="text-sm text-bark-400">para realizar o pagamento</p>
+                            <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Pagamento via PIX</h1>
+                            <p className="text-sm text-bark-400">Abra o app do banco e escaneie o QR Code.</p>
                         </div>
                         <div className="flex items-center gap-1.5 text-bark-500">
                             <QrCode className="w-5 h-5" strokeWidth={1.8} />
                             <span className="text-xs font-semibold uppercase tracking-wider">pix</span>
                         </div>
                     </div>
-
-                    <p className="text-sm text-bark-400 mb-6">
-                        Use o aplicativo do seu banco para escanear o código PIX ao lado.
-                    </p>
 
                     <div className="mb-6">
                         <p className="text-xs text-bark-400">Valor da doação</p>

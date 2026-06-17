@@ -9,8 +9,8 @@ import { fadeUp, hoverTap } from '../../../Utils/animacoes';
 const MotionLink = motion.create(Link);
 
 export default function Sucesso({ campanha, doacao }) {
-    const agora = new Date();
-    const dataFormatada = `${agora.toLocaleDateString('pt-BR')} - ${agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+    const dataBase = doacao.created_at ? new Date(doacao.created_at) : new Date();
+    const dataFormatada = `${dataBase.toLocaleDateString('pt-BR')} - ${dataBase.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
 
     return (
         <AppLayout titulo="Doação Confirmada">
@@ -24,13 +24,13 @@ export default function Sucesso({ campanha, doacao }) {
                             initial={{ scale: 0, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.15 }}
-                            className="w-16 h-16 rounded-full bg-night-800/10 flex items-center justify-center mx-auto mb-4"
+                            className="w-16 h-16 rounded-full bg-sage-100 flex items-center justify-center mx-auto mb-4"
                         >
-                            <Check className="w-8 h-8 text-night-800" strokeWidth={2.5} />
+                            <Check className="w-8 h-8 text-sage-500" strokeWidth={2.5} />
                         </motion.div>
-                        <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Doação realizada com sucesso!</h1>
+                        <h1 className="font-serif text-xl font-bold text-bark-800 mb-1">Doação confirmada!</h1>
                         <p className="text-sm text-bark-400">
-                            Muito obrigado por sua contribuição. Você acabou de fazer a diferença na vida de alguém. 💛
+                            Obrigado, {doacao.nome_exibicao}. Sua contribuição chega diretamente a quem precisa.
                         </p>
                     </div>
 

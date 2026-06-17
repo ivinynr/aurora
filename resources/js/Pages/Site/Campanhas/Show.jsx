@@ -19,6 +19,8 @@ function extrairYoutubeId(url) {
 export default function Show({ campanha, totalDoadores }) {
     const [copiado, setCopiado] = useState(false);
     const youtubeId = extrairYoutubeId(campanha.video_url);
+    const temImagem = !youtubeId && !!campanha.imagem_url;
+    const temHeroMedia = !!(youtubeId || temImagem);
 
     function compartilhar() {
         navigator.clipboard.writeText(window.location.href);
@@ -27,10 +29,39 @@ export default function Show({ campanha, totalDoadores }) {
     }
 
     return (
-        <AppLayout titulo={`${campanha.titulo} — Aurora`} descricao={campanha.resumo}>
-            <div className="relative bg-night-800 overflow-hidden">
-                {youtubeId ? (
-                    <div className="aspect-video max-h-[60vh] w-full">
+        <AppLayout
+            titulo={`${campanha.titulo} — Aurora`}
+            descricao={campanha.resumo}
+            navbarTransparente={temHeroMedia}
+        >
+            {/* Hero: imagem cinematic com título sobreposto */}
+            {temImagem && (
+                <div className="relative w-full h-[65vh] overflow-hidden">
+                    <img
+                        src={campanha.imagem_url}
+                        alt={campanha.titulo}
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-night-800/90 via-night-800/25 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 max-w-5xl mx-auto px-6 pb-10">
+                        <Link
+                            href={route('instituicoes.show', campanha.instituicao.slug)}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-white/70 hover:text-white mb-3 transition-colors"
+                        >
+                            <BadgeCheck className="w-3.5 h-3.5" strokeWidth={1.8} />
+                            {campanha.instituicao.nome}
+                        </Link>
+                        <h1 className="font-serif text-3xl lg:text-5xl font-bold text-white leading-tight max-w-2xl">
+                            {campanha.titulo}
+                        </h1>
+                    </div>
+                </div>
+            )}
+
+            {/* Hero: vídeo YouTube */}
+            {youtubeId && (
+                <div className="w-full bg-black">
+                    <div className="aspect-video max-h-[62vh] w-full">
                         <iframe
                             src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1`}
                             className="w-full h-full"
@@ -39,38 +70,35 @@ export default function Show({ campanha, totalDoadores }) {
                             allowFullScreen
                         />
                     </div>
-                ) : campanha.imagem_url ? (
-                    <div className="w-full flex justify-center py-6 px-4">
-                        <img
-                            src={campanha.imagem_url}
-                            alt={campanha.titulo}
-                            className="mx-auto max-h-[55vh] w-auto max-w-4xl rounded-2xl object-cover shadow-warm-lg"
-                        />
-                    </div>
-                ) : (
-                    <div className="h-4"></div>
-                )}
-            </div>
+                </div>
+            )}
 
             <section className="max-w-5xl mx-auto px-6 pt-8 pb-24">
-                <Link href={route('campanhas.index')} className="inline-flex items-center gap-1.5 text-sm text-bark-400 hover:text-bark-600 transition-colors mb-6">
+                <Link
+                    href={route('campanhas.index')}
+                    className="inline-flex items-center gap-1.5 text-sm text-bark-400 hover:text-bark-600 transition-colors mb-6"
+                >
                     <ArrowLeft className="w-4 h-4" strokeWidth={1.8} />
                     Voltar para campanhas
                 </Link>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    <div className="lg:col-span-2 space-y-10">
-                        <motion.div initial="hidden" animate="show" variants={fadeUp}>
-                            <Link
-                                href={route('instituicoes.show', campanha.instituicao.slug)}
-                                className="inline-flex items-center gap-1.5 text-xs font-medium text-terra-500 hover:text-terra-600 mb-2"
-                            >
-                                <BadgeCheck className="w-3.5 h-3.5" strokeWidth={1.8} />
-                                {campanha.instituicao.nome}
-                            </Link>
-                            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-night-800 leading-tight">{campanha.titulo}</h1>
-                            <p className="text-lg text-bark-400 mt-3">{campanha.resumo}</p>
-                        </motion.div>
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Título no conteúdo apenas quando não está sobreposto na imagem */}
+                        {!temImagem && (
+                            <motion.div initial="hidden" animate="show" variants={fadeUp}>
+                                <Link
+                                    href={route('instituicoes.show', campanha.instituicao.slug)}
+                                    className="inline-flex items-center gap-1.5 text-xs font-medium text-terra-500 hover:text-terra-600 mb-2"
+                                >
+                                    <BadgeCheck className="w-3.5 h-3.5" strokeWidth={1.8} />
+                                    {campanha.instituicao.nome}
+                                </Link>
+                                <h1 className="font-serif text-3xl lg:text-4xl font-bold text-night-800 leading-tight">
+                                    {campanha.titulo}
+                                </h1>
+                            </motion.div>
+                        )}
 
                         <div className="text-bark-600 leading-relaxed text-[16px] space-y-4 font-light whitespace-pre-line">
                             {campanha.descricao}
@@ -82,7 +110,7 @@ export default function Show({ campanha, totalDoadores }) {
                                 <div className="space-y-6">
                                     {campanha.atualizacoes.map((att) => (
                                         <div key={att.id} className="relative pl-6 border-l-2 border-cream-300">
-                                            <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-terra-500"></div>
+                                            <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-terra-500" />
                                             <p className="text-xs text-bark-300 mb-1">
                                                 {new Intl.DateTimeFormat('pt-BR').format(new Date(att.created_at))} · {tempoRelativo(att.created_at)}
                                             </p>
@@ -98,8 +126,8 @@ export default function Show({ campanha, totalDoadores }) {
                         )}
                     </div>
 
-                    <div className="space-y-6">
-                        <div className="bg-white rounded-2xl shadow-warm border border-cream-200 p-6 lg:sticky lg:top-20">
+                    <div className="space-y-6 lg:sticky lg:top-20 self-start">
+                        <div className="bg-white rounded-2xl shadow-warm border border-cream-200 p-6">
                             <BarraProgresso
                                 percentual={campanha.percentual_arrecadado}
                                 meta={campanha.meta}

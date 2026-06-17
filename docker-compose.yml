@@ -18,6 +18,7 @@ services:
       mysql:
         condition: service_healthy
     command: bash /var/www/docker/entrypoint.sh
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.0
@@ -36,6 +37,21 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: aurora-phpmyadmin
+    ports:
+      - "8101:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   aurora_mysql_data:

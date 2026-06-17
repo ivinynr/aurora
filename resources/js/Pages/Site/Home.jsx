@@ -19,7 +19,7 @@ const MotionLink = motion.create(Link);
 
 const FEATURES_HERO = [
     [ShieldCheck, 'Instituições verificadas'],
-    [Lock, 'Pagamento seguro via PIX'],
+    [Lock, 'Doações rastreadas em tempo real'],
     [BarChart3, 'Transparência total'],
 ];
 
@@ -206,7 +206,6 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
                             <h2 className="font-serif text-2xl lg:text-3xl font-bold text-[#02164B]">Campanhas em destaque</h2>
-                            <p className="mt-2 text-sm text-[#02164B]/70">Causas verificadas que já podem receber sua doação via PIX.</p>
                         </div>
                         <Link href={route('campanhas.index')} className="inline-flex items-center gap-2 text-sm font-bold text-[#0D3B9E] hover:text-[#042168]">
                             Ver todas as campanhas
@@ -245,7 +244,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                                     </div>
                                     <div className="p-6">
                                         <h3 className="font-serif text-lg font-bold text-[#02164B]">{campanha.titulo}</h3>
-                                        <p className="mt-2 min-h-10 text-sm leading-6 text-[#02164B]/70">{campanha.descricao}</p>
+                                        <p className="mt-2 text-sm leading-6 text-[#02164B]/70 line-clamp-2">{campanha.descricao}</p>
                                         <div className="mt-5 flex items-baseline justify-between gap-3">
                                             <p className="text-sm font-bold text-[#02164B]">
                                                 R$ {campanha.arrecadado.toLocaleString('pt-BR')}{' '}
@@ -256,14 +255,9 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                                         <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#011241]/10">
                                             <div className="h-full rounded-full bg-[#0D3B9E]" style={{ width: `${percentual}%` }}></div>
                                         </div>
-                                        <div className="mt-5 flex items-center gap-3">
-                                            <div className="flex -space-x-2">
-                                                {['#0D3B9E', '#FA8002', '#052F89'].map((cor) => (
-                                                    <span key={cor} className="h-7 w-7 rounded-full border-2 border-white" style={{ background: cor }}></span>
-                                                ))}
-                                            </div>
-                                            <span className="text-sm text-[#02164B]/70">{campanha.doacoes} doações</span>
-                                        </div>
+                                        {campanha.doacoes > 0 && (
+                                            <p className="mt-4 text-sm text-[#02164B]/60">{campanha.doacoes} doações</p>
+                                        )}
                                     </div>
                                 </MotionLink>
                             );
@@ -302,7 +296,6 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
                             <h2 className="font-serif text-2xl lg:text-3xl font-bold text-[#02164B]">Instituições em destaque</h2>
-                            <p className="mt-2 text-sm text-[#02164B]/70">Organizações verificadas que você pode apoiar com confiança.</p>
                         </div>
                         <Link href={route('instituicoes.index')} className="inline-flex items-center gap-2 text-sm font-bold text-[#0D3B9E] hover:text-[#042168]">
                             Ver todas as instituições
@@ -341,7 +334,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                                     </div>
                                     <div className="p-6">
                                         <h3 className="font-serif text-lg font-bold text-[#02164B]">{instituicao.nome}</h3>
-                                        <p className="mt-2 min-h-10 text-sm leading-6 text-[#02164B]/70 line-clamp-2">
+                                        <p className="mt-2 text-sm leading-6 text-[#02164B]/70 line-clamp-2">
                                             {instituicao.missao || instituicao.descricao}
                                         </p>
                                         <div className="mt-5 flex items-center justify-between gap-3">
