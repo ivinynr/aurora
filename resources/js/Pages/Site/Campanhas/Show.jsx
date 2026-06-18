@@ -109,9 +109,9 @@ export default function Show({ campanha, totalDoadores }) {
                                 <h2 className="font-serif text-xl font-bold text-night-800 mb-5">Atualizações da campanha</h2>
                                 <div className="space-y-6">
                                     {campanha.atualizacoes.map((att) => (
-                                        <div key={att.id} className="relative pl-6 border-l-2 border-cream-300">
+                                        <div key={att.id} className="relative pl-6 border-l border-cream-300">
                                             <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-terra-500" />
-                                            <p className="text-xs text-bark-300 mb-1">
+                                            <p className="text-xs text-bark-400 mb-1">
                                                 {new Intl.DateTimeFormat('pt-BR').format(new Date(att.created_at))} · {tempoRelativo(att.created_at)}
                                             </p>
                                             <h3 className="font-serif font-bold text-night-800">{att.titulo}</h3>
@@ -127,7 +127,7 @@ export default function Show({ campanha, totalDoadores }) {
                     </div>
 
                     <div className="space-y-6 lg:sticky lg:top-20 self-start">
-                        <div className="bg-white rounded-2xl shadow-warm border border-cream-200 p-6">
+                        <div className="bg-white rounded-2xl shadow-warm p-6">
                             <BarraProgresso
                                 percentual={campanha.percentual_arrecadado}
                                 meta={campanha.meta}
@@ -155,7 +155,7 @@ export default function Show({ campanha, totalDoadores }) {
                                     >
                                         Doar agora
                                     </MotionLink>
-                                    <p className="text-center text-xs text-bark-300 mt-3 flex items-center justify-center gap-1">
+                                    <p className="text-center text-xs text-bark-400 mt-3 flex items-center justify-center gap-1">
                                         <Lock className="w-3.5 h-3.5" strokeWidth={1.5} />
                                         Pagamento seguro via PIX
                                     </p>
@@ -178,8 +178,8 @@ export default function Show({ campanha, totalDoadores }) {
                         </div>
 
                         {campanha.doacoes?.length > 0 && (
-                            <div className="bg-white rounded-2xl shadow-warm border border-cream-200 p-6">
-                                <p className="text-xs text-bark-300 uppercase tracking-wider font-semibold mb-4">Apoiadores recentes</p>
+                            <div className="bg-white rounded-2xl shadow-warm p-6">
+                                <p className="text-sm font-semibold text-bark-600 mb-4">Apoiadores recentes</p>
                                 <MuralApoiadores doacoes={campanha.doacoes} />
                             </div>
                         )}

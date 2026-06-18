@@ -119,4 +119,21 @@
         background: var(--color-terra-100);
         color: var(--color-bark-800);
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        .animate-slide-up,
+        .animate-fade-in {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .progress-fill {
+            animation: none;
+        }
+    }
 }

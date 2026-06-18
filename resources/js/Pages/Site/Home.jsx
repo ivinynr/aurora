@@ -184,7 +184,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                         initial="hidden"
                         whileInView="show"
                         viewport={viewportOnce}
-                        className="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl border border-[#011241]/10 bg-[#FFFFFF] px-7 py-7 shadow-[0_18px_55px_rgba(1,18,65,.08)]"
+                        className="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl bg-[#FFFFFF] px-7 py-7 shadow-[0_4px_16px_rgba(1,18,65,.10)]"
                     >
                         {STATS.map(([Icone, classe, valor, label]) => (
                             <motion.div variants={fadeUp} key={label} className="flex items-center gap-5 md:justify-center">
@@ -231,7 +231,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                                     whileHover={{ y: -6, scale: 1.03 }}
                                     transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                                     href={url}
-                                    className="group block overflow-hidden rounded-2xl border border-[#011241]/10 bg-[#FFFFFF] shadow-[0_14px_38px_rgba(1,18,65,.07)] hover:shadow-[0_20px_50px_rgba(1,18,65,.12)]"
+                                    className="group block overflow-hidden rounded-2xl bg-[#FFFFFF] shadow-[0_2px_8px_rgba(1,18,65,.08)] hover:shadow-[0_8px_24px_rgba(1,18,65,.14)]"
                                 >
                                     <div className="aspect-[16/10] overflow-hidden bg-[#F8F9FD]">
                                         {campanha.imagem ? (
@@ -268,7 +268,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
 
             <section id="como-funciona" className="scroll-mt-24 bg-[#F8F9FD] pb-16">
                 <div className="max-w-6xl mx-auto px-6 lg:px-8">
-                    <div className="rounded-3xl border border-[#011241]/10 bg-[#FFFFFF] px-6 py-8 shadow-[0_14px_45px_rgba(1,18,65,.06)] lg:px-8">
+                    <div className="rounded-3xl bg-[#FFFFFF] px-6 py-8 shadow-[0_2px_8px_rgba(1,18,65,.08)] lg:px-8">
                         <h2 className="font-serif text-2xl font-bold text-[#02164B]">Como funciona</h2>
                         <motion.div
                             variants={containerStagger}
@@ -321,7 +321,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                                     whileHover={{ y: -6, scale: 1.03 }}
                                     transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                                     href={url}
-                                    className="group block overflow-hidden rounded-2xl border border-[#011241]/10 bg-[#FFFFFF] shadow-[0_14px_38px_rgba(1,18,65,.07)] hover:shadow-[0_20px_50px_rgba(1,18,65,.12)]"
+                                    className="group block overflow-hidden rounded-2xl bg-[#FFFFFF] shadow-[0_2px_8px_rgba(1,18,65,.08)] hover:shadow-[0_8px_24px_rgba(1,18,65,.14)]"
                                 >
                                     <div className="aspect-[16/10] overflow-hidden bg-[#F8F9FD]">
                                         {instituicao.logo_url ? (

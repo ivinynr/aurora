@@ -2,7 +2,8 @@ import { Head, useForm, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, LogIn } from 'lucide-react';
 import Logo from '../../Components/Layout/Logo';
-import { fadeUp, hoverTap } from '../../Utils/animacoes';
+import Footer from '../../Components/Layout/Footer';
+import { hoverTap } from '../../Utils/animacoes';
 
 export default function Login() {
     const { data, setData, post, processing, errors } = useForm({
@@ -17,16 +18,17 @@ export default function Login() {
     }
 
     return (
-        <div className="min-h-screen bg-cream-100 flex items-center justify-center p-6 font-sans antialiased">
+        <div className="min-h-screen flex flex-col bg-[#F8F9FD] font-sans antialiased">
             <Head title="Entrar" />
 
+            <div className="flex-1 flex items-center justify-center p-6">
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} className="w-full max-w-sm">
                 <div className="text-center mb-8">
                     <Link href={route('home')} className="inline-block"><Logo tamanho="lg" /></Link>
                     <p className="text-sm text-bark-400 mt-2">Acesso administrativo</p>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-warm border border-cream-200 p-7">
+                <div className="bg-white rounded-xl shadow-warm p-7">
                     {errors.email && (
                         <div className="mb-5 p-3 rounded-lg bg-terra-50 border border-terra-100 text-sm text-terra-600">
                             E-mail ou senha incorretos.
@@ -86,8 +88,10 @@ export default function Login() {
                     </form>
                 </div>
 
-                <p className="text-center text-xs text-bark-300 mt-6">Aurora &mdash; Hackathon Confrapag + UNIESP</p>
             </motion.div>
+            </div>
+
+            <Footer />
         </div>
     );
 }

@@ -20,10 +20,15 @@ export const containerStagger = {
 };
 
 // flutuar: floating_cards { effect: "floating", duration: 4, repeat: "infinite" }
-export const flutuar = (delay = 0) => ({
-    animate: { y: [0, -12, 0] },
-    transition: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay },
-});
+// Suprimido quando o usuário ativou prefers-reduced-motion.
+export const flutuar = (delay = 0) => {
+    const reduzido = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduzido) return {};
+    return {
+        animate: { y: [0, -12, 0] },
+        transition: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay },
+    };
+};
 
 // hoverTap: buttons { hover_scale: 1.03, tap_scale: 0.98 }
 export const hoverTap = { whileHover: { scale: 1.03 }, whileTap: { scale: 0.98 } };

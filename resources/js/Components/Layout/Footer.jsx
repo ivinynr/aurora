@@ -33,8 +33,8 @@ export default function Footer() {
                 </div>
 
                 <div className="mt-10 pt-6 border-t border-cream-300/40 flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <p className="text-xs text-bark-300">&copy; {ano} Aurora &mdash; Hackathon Confrapag + UNIESP</p>
-                    <p className="text-xs text-bark-300">Feito com cuidado na Paraíba</p>
+                    <p className="text-xs text-bark-400">&copy; {ano} Aurora &mdash; Hackathon Confrapag + UNIESP</p>
+                    <p className="text-xs text-bark-400">Feito com cuidado na Paraíba</p>
                 </div>
             </div>
         </footer>

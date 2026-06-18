@@ -91,10 +91,15 @@ class Campanha extends Model
 
     public function totalDoadores(): int
     {
-        return $this->doacoes()
+        // Prioridade de identificação: user_id > email_doador > cada doação anônima como única
+        return (int) $this->doacoes()
             ->where('situacao', 'confirmada')
-            ->distinct('nome_doador')
-            ->count('nome_doador');
+            ->selectRaw("COUNT(DISTINCT CASE
+                WHEN user_id IS NOT NULL THEN CONCAT('u-', user_id)
+                WHEN email_doador IS NOT NULL AND email_doador != '' THEN CONCAT('e-', email_doador)
+                ELSE CONCAT('a-', id)
+            END) as total")
+            ->value('total');
     }
 
     public function estaEncerrada(): bool

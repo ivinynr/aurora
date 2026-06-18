@@ -23,7 +23,7 @@ export default function Show({ instituicao, relacionadas }) {
 
     return (
         <AppLayout titulo={`${instituicao.nome} — Aurora`}>
-            <section className="bg-cream-100 py-10 lg:py-14">
+            <section className="bg-[#F8F9FD] py-10 lg:py-14">
                 <div className="max-w-7xl mx-auto px-6">
                     <Link href={route('instituicoes.index')} className="inline-flex items-center gap-1.5 text-sm text-bark-400 hover:text-bark-600 transition-colors mb-6">
                         <ArrowLeft className="w-4 h-4" strokeWidth={1.8} />

@@ -15,7 +15,7 @@ export default function AppLayout({ titulo, descricao, children, navbarTranspare
 
             <Navbar transparente={navbarTransparente} />
 
-            <main className="flex-1 relative z-10">
+            <main className="flex-1 relative z-10 bg-[#F8F9FD]">
                 {temFlash && (
                     <div className="max-w-xl mx-auto px-6 pt-6 space-y-3">
                         {flash.sucesso && <Alerta tipo="sucesso">{flash.sucesso}</Alerta>}
