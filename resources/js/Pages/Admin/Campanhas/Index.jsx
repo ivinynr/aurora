@@ -3,10 +3,7 @@ import AdminLayout from '../../../Layouts/AdminLayout';
 import Card from '../../../Components/UI/Card';
 import Botao from '../../../Components/UI/Botao';
 import Badge from '../../../Components/UI/Badge';
-
-function formatarMoeda(valor) {
-    return Number(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
+import { formatarMoeda } from '../../../Utils/formatacao';
 
 function encerrar(campanha) {
     if (confirm('Encerrar esta campanha? Ela deixará de aceitar doações.')) {

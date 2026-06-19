@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AtualizacaoInstituicao extends Model
 {
@@ -19,8 +21,23 @@ class AtualizacaoInstituicao extends Model
         'imagem',
     ];
 
+    protected $appends = [
+        'imagem_url',
+    ];
+
     public function instituicao(): BelongsTo
     {
         return $this->belongsTo(Instituicao::class, 'instituicao_id');
+    }
+
+    public function getImagemUrlAttribute(): ?string
+    {
+        if (!$this->imagem) {
+            return null;
+        }
+
+        return Str::startsWith($this->imagem, ['http://', 'https://'])
+            ? $this->imagem
+            : Storage::url($this->imagem);
     }
 }

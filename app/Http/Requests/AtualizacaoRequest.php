@@ -8,7 +8,7 @@ class AtualizacaoRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->ehAdmin() ?? false;
     }
 
     public function rules(): array

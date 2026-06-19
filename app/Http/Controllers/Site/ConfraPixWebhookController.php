@@ -17,7 +17,11 @@ class ConfraPixWebhookController extends Controller
     {
         $secret = config('services.confrapix.webhook_secret');
 
-        if ($secret && ! hash_equals((string) $secret, (string) $request->query('token'))) {
+        if (empty($secret)) {
+            return response()->json(['mensagem' => 'Webhook não configurado.'], 503);
+        }
+
+        if (! hash_equals((string) $secret, (string) $request->query('token'))) {
             return response()->json(['mensagem' => 'Não autorizado.'], 401);
         }
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Enums\SituacaoDoacao;
 
 class Campanha extends Model
 {
@@ -93,7 +94,7 @@ class Campanha extends Model
     {
         // Prioridade de identificação: user_id > email_doador > cada doação anônima como única
         return (int) $this->doacoes()
-            ->where('situacao', 'confirmada')
+            ->where('situacao', SituacaoDoacao::CONFIRMADA->value)
             ->selectRaw("COUNT(DISTINCT CASE
                 WHEN user_id IS NOT NULL THEN CONCAT('u-', user_id)
                 WHEN email_doador IS NOT NULL AND email_doador != '' THEN CONCAT('e-', email_doador)

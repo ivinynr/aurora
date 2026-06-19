@@ -3,10 +3,7 @@ import AdminLayout from '../../../Layouts/AdminLayout';
 import Card from '../../../Components/UI/Card';
 import Botao from '../../../Components/UI/Botao';
 import Badge from '../../../Components/UI/Badge';
-
-function formatarMoeda(valor) {
-    return Number(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
+import { formatarMoeda } from '../../../Utils/formatacao';
 
 function formatarData(data) {
     return new Date(data).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });

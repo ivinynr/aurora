@@ -8,13 +8,14 @@ use App\Models\Campanha;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
+use App\Enums\SituacaoDoacao;
 
 class CampanhaService
 {
     public function destaques(int $limite = 3): Collection
     {
         return Campanha::with('instituicao')
-            ->withCount(['doacoes as doacoes_confirmadas_count' => fn ($q) => $q->where('situacao', 'confirmada')])
+            ->withCount(['doacoes as doacoes_confirmadas_count' => fn ($q) => $q->where('situacao', SituacaoDoacao::CONFIRMADA->value)])
             ->ativas()
             ->emDestaque()
             ->orderByDesc('valor_arrecadado')
@@ -46,7 +47,7 @@ class CampanhaService
         return Campanha::with([
             'instituicao',
             'atualizacoes' => fn ($q) => $q->orderByDesc('created_at'),
-            'doacoes' => fn ($q) => $q->where('situacao', 'confirmada')
+            'doacoes' => fn ($q) => $q->where('situacao', SituacaoDoacao::CONFIRMADA->value)
                 ->orderByDesc('created_at')
                 ->limit(50),
         ])->where('slug', $slug)->first();
@@ -55,7 +56,7 @@ class CampanhaService
     public function listarTodas(): Collection
     {
         return Campanha::with('instituicao')
-            ->withCount(['doacoes as total_doadores' => fn ($q) => $q->where('situacao', 'confirmada')])
+            ->withCount(['doacoes as total_doadores' => fn ($q) => $q->where('situacao', SituacaoDoacao::CONFIRMADA->value)])
             ->orderByDesc('created_at')
             ->get();
     }

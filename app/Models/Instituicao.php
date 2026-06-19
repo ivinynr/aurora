@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Enums\SegmentoInstituicao;
+use App\Enums\SituacaoDoacao;
 
 class Instituicao extends Model
 {
@@ -88,10 +89,14 @@ class Instituicao extends Model
 
     public function totalDoadores(): int
     {
-        return $this->doacoes()
-            ->where('donations.situacao', 'confirmada')
-            ->distinct('donations.nome_doador')
-            ->count('donations.nome_doador');
+        return (int) $this->doacoes()
+            ->where('donations.situacao', SituacaoDoacao::CONFIRMADA->value)
+            ->selectRaw("COUNT(DISTINCT CASE
+                WHEN donations.user_id IS NOT NULL THEN CONCAT('u-', donations.user_id)
+                WHEN donations.email_doador IS NOT NULL AND donations.email_doador != '' THEN CONCAT('e-', donations.email_doador)
+                ELSE CONCAT('a-', donations.id)
+            END) as total")
+            ->value('total');
     }
 
     public function logoUrl(): ?string
