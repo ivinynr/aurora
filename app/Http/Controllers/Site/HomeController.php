@@ -23,6 +23,7 @@ class HomeController extends Controller
             'destaques' => $this->campanhaService->destaques(3),
             'ultimasDoacoes' => $this->doacaoService->ultimasDoacoes(8),
             'instituicoes' => $this->instituicaoService->destaquesPagina(6),
+            'estatisticas' => $this->doacaoService->estatisticas(),
         ]);
     }
 }

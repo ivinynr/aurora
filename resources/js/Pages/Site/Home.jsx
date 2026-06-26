@@ -23,11 +23,6 @@ const FEATURES_HERO = [
     [BarChart3, 'Transparência total'],
 ];
 
-const STATS = [
-    [Users, 'bg-[#0D3B9E]/10 text-[#0D3B9E]', '+500', 'Famílias ajudadas'],
-    [DollarSign, 'bg-[#0D3B9E]/10 text-[#0D3B9E]', '+R$ 120.000', 'Arrecadados'],
-    [Heart, 'bg-[#FA8002]/10 text-[#FA8002]', '+3.200', 'Doações realizadas'],
-];
 
 const PASSOS = [
     ['1. Escolha', 'Navegue pelas campanhas e escolha a causa que deseja apoiar.', Search],
@@ -36,7 +31,7 @@ const PASSOS = [
     ['4. Impacte', 'Sua doação chega a quem precisa e transforma vidas.', Users],
 ];
 
-export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
+export default function Home({ destaques, ultimasDoacoes, instituicoes, estatisticas }) {
     const campanhas = (destaques ?? []).slice(0, 3).map((campanha) => ({
         titulo: campanha.titulo,
         descricao: campanha.resumo,
@@ -53,11 +48,11 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
 
     return (
         <AppLayout titulo="Aurora — Doe com confiança" navbarTransparente>
-            <section className="relative h-[650px] min-h-[650px] overflow-hidden bg-[#011241] pt-[88px] text-white">
+            <section className="relative overflow-hidden bg-[#011241] pt-[88px] pb-32 lg:pb-0 lg:h-[650px] lg:min-h-[650px] text-white">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(18,58,140,0.95)_0%,rgba(6,36,95,0.95)_35%,rgba(2,22,75,1)_68%,rgba(1,18,65,1)_100%)]"></div>
 
-                <div className="relative z-20 mx-auto grid h-full max-w-[1180px] grid-cols-1 items-center px-6 lg:grid-cols-[48%_52%]">
-                    <motion.div className="max-w-xl -translate-y-[35px]" variants={containerStagger} initial="hidden" animate="show">
+                <div className="relative z-20 mx-auto grid max-w-[1180px] grid-cols-1 px-6 lg:grid-cols-[48%_52%] lg:h-full lg:items-center">
+                    <motion.div className="max-w-xl lg:-translate-y-[35px]" variants={containerStagger} initial="hidden" animate="show">
                         <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold text-[#FFFFFF] shadow-[0_14px_36px_rgba(0,0,0,.18)] backdrop-blur">
                             <span className="inline-flex w-5 h-5 items-center justify-center rounded-full bg-[#FA8002]/15 text-[#FA8002]">
                                 <ShieldCheck className="w-3.5 h-3.5" strokeWidth={2} />
@@ -84,6 +79,14 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                                 Ver campanhas
                                 <ArrowRight className="w-4 h-4" strokeWidth={2} />
                             </MotionLink>
+                            <MotionLink
+                                {...hoverTap}
+                                href={route('instituicoes.index')}
+                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/10"
+                            >
+                                Ver instituições
+                                <ArrowRight className="w-4 h-4" strokeWidth={2} />
+                            </MotionLink>
                             <motion.a
                                 {...hoverTap}
                                 href="#como-funciona"
@@ -107,32 +110,36 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                     </motion.div>
 
                     <motion.div className="relative mx-auto hidden h-[560px] w-full max-w-[640px] lg:block" variants={fadeInScale} initial="hidden" animate="show">
-                        <motion.div {...flutuar(0)} className="absolute left-[30px] top-[116px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
-                            <div className="flex items-center gap-3">
-                                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#0D3B9E]/35 text-white">
-                                    <Users className="w-4 h-4" strokeWidth={1.8} />
-                                </span>
-                                <div>
-                                    <p className="text-[13px] font-bold">35 famílias</p>
-                                    <p className="text-xs text-[#FFFFFF]">já foram ajudadas</p>
+                        {(estatisticas?.total_doadores ?? 0) > 0 && (
+                            <motion.div {...flutuar(0)} className="absolute left-[30px] top-[116px] z-[3] rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
+                                <div className="flex items-center gap-3">
+                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#0D3B9E]/35 text-white">
+                                        <Users className="w-4 h-4" strokeWidth={1.8} />
+                                    </span>
+                                    <div>
+                                        <p className="text-[13px] font-bold">{(estatisticas.total_doadores).toLocaleString('pt-BR')} doadores</p>
+                                        <p className="text-xs text-[#FFFFFF]">já contribuíram</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        )}
 
-                        <motion.div {...flutuar(1.3)} className="absolute right-[40px] top-[94px] z-[3] w-52 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
-                            <div className="flex items-center gap-3">
-                                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/12 text-white">
-                                    <Target className="w-5 h-5" strokeWidth={1.8} />
-                                </span>
-                                <div>
-                                    <p className="text-[13px] font-bold">Meta da campanha</p>
-                                    <p className="text-xs text-[#FFFFFF]">78% concluída</p>
+                        {campanhas.length > 0 && campanhas[0].meta > 0 && (
+                            <motion.div {...flutuar(1.3)} className="absolute right-[40px] top-[94px] z-[3] w-52 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.10)] p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] backdrop-blur-[16px]">
+                                <div className="flex items-center gap-3">
+                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/12 text-white">
+                                        <Target className="w-5 h-5" strokeWidth={1.8} />
+                                    </span>
+                                    <div>
+                                        <p className="text-[13px] font-bold">Meta da campanha</p>
+                                        <p className="text-xs text-[#FFFFFF]">{Math.min(100, Math.round((campanhas[0].arrecadado / campanhas[0].meta) * 100))}% concluída</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="mt-3 h-2 rounded-full bg-white/15">
-                                <div className="h-full w-[78%] rounded-full bg-[#FA8002]"></div>
-                            </div>
-                        </motion.div>
+                                <div className="mt-3 h-2 rounded-full bg-white/15">
+                                    <div className="h-full rounded-full bg-[#FA8002]" style={{ width: `${Math.min(100, Math.round((campanhas[0].arrecadado / campanhas[0].meta) * 100))}%` }}></div>
+                                </div>
+                            </motion.div>
+                        )}
 
                         <svg className="absolute inset-x-0 top-12 z-0 mx-auto h-[430px] w-[500px] text-[rgba(37,99,235,0.20)] opacity-[0.85]" viewBox="0 0 560 500" fill="none" aria-hidden="true">
                             <path fill="currentColor" d="M280 455C237 406 100 330 77 204C59 104 134 44 205 84C242 105 266 141 280 176C294 141 318 105 355 84C426 44 501 104 483 204C460 330 323 406 280 455Z"/>
@@ -186,7 +193,11 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                         viewport={viewportOnce}
                         className="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-3xl bg-[#FFFFFF] px-7 py-7 shadow-[0_4px_16px_rgba(1,18,65,.10)]"
                     >
-                        {STATS.map(([Icone, classe, valor, label]) => (
+                        {[
+                            [Users, 'bg-[#0D3B9E]/10 text-[#0D3B9E]', (estatisticas?.total_doadores ?? 0).toLocaleString('pt-BR'), 'Doadores'],
+                            [DollarSign, 'bg-[#0D3B9E]/10 text-[#0D3B9E]', `R$ ${(estatisticas?.total_doado ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`, 'Arrecadados'],
+                            [Heart, 'bg-[#FA8002]/10 text-[#FA8002]', (estatisticas?.total_doacoes ?? 0).toLocaleString('pt-BR'), 'Doações realizadas'],
+                        ].map(([Icone, classe, valor, label]) => (
                             <motion.div variants={fadeUp} key={label} className="flex items-center gap-5 md:justify-center">
                                 <span className={`inline-flex w-16 h-16 shrink-0 items-center justify-center rounded-full ${classe}`}>
                                     <Icone className="w-8 h-8" strokeWidth={1.8} />
@@ -218,7 +229,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes }) {
                         initial="hidden"
                         whileInView="show"
                         viewport={viewportOnce}
-                        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+                        className="grid grid-cols-1 gap-6"
                     >
                         {campanhas.map((campanha, indice) => {
                             const percentual = campanha.meta > 0 ? Math.min(100, Math.round((campanha.arrecadado / campanha.meta) * 100)) : 0;
