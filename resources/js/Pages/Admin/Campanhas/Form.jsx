@@ -97,7 +97,7 @@ function AtualizacoesCampanha({ campanha }) {
 export default function Form({ campanha, instituicoes, situacoes }) {
     const editando = !!campanha;
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, put, processing, errors } = useForm({
         instituicao_id: campanha?.instituicao_id ?? '',
         titulo: campanha?.titulo ?? '',
         resumo: campanha?.resumo ?? '',
@@ -117,10 +117,7 @@ export default function Form({ campanha, instituicoes, situacoes }) {
         const opcoes = { forceFormData: true };
 
         if (editando) {
-            post(route('admin.campanhas.update', campanha.id), {
-                ...opcoes,
-                data: { ...data, _method: 'put' },
-            });
+            put(route('admin.campanhas.update', campanha.id), opcoes);
         } else {
             post(route('admin.campanhas.store'), opcoes);
         }

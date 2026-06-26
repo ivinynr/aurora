@@ -5,18 +5,12 @@ import { QrCode, Copy, Check } from 'lucide-react';
 import AppLayout from '../../../Layouts/AppLayout';
 import Card from '../../../Components/UI/Card';
 import Stepper from '../../../Components/Doacao/Stepper';
-import { usePagamentoPolling } from '../../../Hooks/usePagamentoPolling';
 import { fadeUp, hoverTap } from '../../../Utils/animacoes';
 
 const MotionLink = motion.create(Link);
 
 export default function Pagamento({ campanha, doacao, pagamento }) {
     const [copiado, setCopiado] = useState(false);
-
-    usePagamentoPolling(
-        route('doacao.status', [campanha.slug, doacao.id]),
-        route('doacao.sucesso', [campanha.slug, doacao.id]),
-    );
 
     function copiarCodigo() {
         navigator.clipboard.writeText(pagamento.qr_code_text);
