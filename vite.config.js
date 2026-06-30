@@ -20,7 +20,17 @@ export default defineConfig({
             port: 5175,
         },
         watch: {
-            ignored: ['**/storage/framework/views/**'],
+            usePolling: true,
+            interval: 1000,
+            binaryInterval: 1500,
+            ignored: [
+                '**/node_modules/**',
+                '**/vendor/**',
+                '**/.git/**',
+                '**/storage/**',
+                '**/public/build/**',
+                '**/bootstrap/cache/**',
+            ],
         },
     },
 });

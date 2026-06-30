@@ -229,7 +229,7 @@ export default function Home({ destaques, ultimasDoacoes, instituicoes, estatist
                         initial="hidden"
                         whileInView="show"
                         viewport={viewportOnce}
-                        className="grid grid-cols-1 gap-6"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
                         {campanhas.map((campanha, indice) => {
                             const percentual = campanha.meta > 0 ? Math.min(100, Math.round((campanha.arrecadado / campanha.meta) * 100)) : 0;

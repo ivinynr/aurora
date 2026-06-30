@@ -46,7 +46,7 @@ export default function Index({ campanhas, busca }) {
                             initial="hidden"
                             whileInView="show"
                             viewport={viewportOnce}
-                            className="grid grid-cols-1 gap-6"
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                         >
                             {campanhas.data.map((campanha) => (
                                 <Card key={campanha.id} campanha={campanha} />
